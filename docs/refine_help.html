@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>refine 极致细致使用手册 / Comprehensive Help Document</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- MathJax for rendering of equations -->
+<script>
+  MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']],
+                     displayMath: [['$$','$$'], ['\\[','\\]']] },
+              svg: { fontCache: 'global' } };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+  :root{--fg:#1b1f23;--bg:#ffffff;--mut:#586069;--accent:#0366d6;--code:#f6f8fa;
+        --warn:#fff8c5;--warn-b:#d4a72c;--ok:#dcffe4;--ok-b:#34d058;
+        --info:#dbedff;--info-b:#0366d6;--side:#fafbfc;}
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;color:var(--fg);background:var(--bg);
+            font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",
+                 "Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;}
+  header{background:linear-gradient(90deg,#0366d6,#28a745);color:#fff;
+         padding:24px 32px;border-bottom:1px solid #d1d5da;}
+  header h1{margin:0 0 4px;font-size:28px;letter-spacing:.5px}
+  header .sub{opacity:.92;font-size:14px}
+  .layout{display:grid;grid-template-columns:280px 1fr;min-height:calc(100vh - 88px);}
+  nav{background:var(--side);border-right:1px solid #e1e4e8;padding:18px 14px;
+      position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto;font-size:14px;}
+  nav h3{font-size:12px;text-transform:uppercase;color:var(--mut);margin:14px 0 6px;letter-spacing:.06em}
+  nav a{display:block;color:var(--fg);text-decoration:none;padding:3px 8px;border-radius:4px}
+  nav a:hover{background:#eaf3ff;color:var(--accent)}
+  main{padding:24px 36px 80px;max-width:1100px}
+  h2{border-bottom:2px solid #eaecef;padding-bottom:6px;margin-top:42px;color:#0b3d91}
+  h3{margin-top:28px;color:#1c4e80}
+  h4{margin-top:20px;color:#243b53}
+  code,kbd{font-family:SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;
+           font-size:.92em;background:var(--code);padding:1px 5px;border-radius:3px}
+  pre{background:var(--code);padding:12px 14px;border-radius:6px;overflow:auto;
+      border:1px solid #e1e4e8;font-size:13px;line-height:1.45}
+  table{border-collapse:collapse;margin:8px 0 18px;width:100%;font-size:14px}
+  th,td{border:1px solid #d1d5da;padding:6px 10px;vertical-align:top;text-align:left}
+  th{background:#f1f8ff;color:#0b3d91}
+  tr:nth-child(2n) td{background:#fcfdff}
+  .note,.warn,.ok,.info{padding:10px 14px;border-left:4px solid;border-radius:4px;
+                        margin:14px 0;font-size:14.5px}
+  .note{background:var(--code);border-color:#959da5}
+  .warn{background:var(--warn);border-color:var(--warn-b)}
+  .ok{background:var(--ok);border-color:var(--ok-b)}
+  .info{background:var(--info);border-color:var(--info-b)}
+  .tag{display:inline-block;background:#eaf3ff;color:#0366d6;font-size:11px;
+       padding:1px 6px;border-radius:8px;margin-right:6px;letter-spacing:.04em}
+  .tag.warn{background:#fff5b1;color:#735c0f}
+  .tag.danger{background:#ffeef0;color:#86181d}
+  .tag.ok{background:#d4f4dd;color:#1b6d2c}
+  details{background:#fbfdff;border:1px solid #d1e3ff;border-radius:5px;
+          padding:8px 12px;margin:8px 0}
+  details summary{cursor:pointer;font-weight:600;color:#0366d6}
+  hr{border:0;border-top:1px solid #eaecef;margin:32px 0}
+  .ascii{white-space:pre;font-family:SFMono-Regular,Consolas,monospace;background:var(--code);
+         padding:12px;border-radius:6px;border:1px solid #e1e4e8;font-size:12.5px;line-height:1.35}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .small{font-size:12.5px;color:var(--mut)}
+  @media(max-width:900px){.layout{grid-template-columns:1fr}nav{position:relative;max-height:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>refine 极致细致使用手册</h1>
+  <div class="sub">A Comprehensive HTML Help Document for the <code>refine</code>
+       (v3) unstructured/mixed-element mesh adaptation platform &nbsp;|&nbsp;
+       NASA Apache-2.0</div>
+</header>
+
+<div class="layout">
+<nav>
+  <h3>目录 / Table of Contents</h3>
+  <a href="#intro">1. 项目简介</a>
+  <a href="#install">2. 编译与安装</a>
+  <a href="#executables">3. 可执行程序</a>
+  <a href="#formats">4. 文件格式</a>
+  <a href="#cells">5. 单元类型体系</a>
+
+  <h3>子命令 / Subcommands</h3>
+  <a href="#cmd-bootstrap">6.1 bootstrap</a>
+  <a href="#cmd-adapt">6.2 adapt</a>
+  <a href="#cmd-multiscale">6.3 multiscale</a>
+  <a href="#cmd-loop">6.4 loop</a>
+  <a href="#cmd-interpolate">6.5 interpolate</a>
+  <a href="#cmd-distance">6.6 distance</a>
+  <a href="#cmd-translate">6.7 translate</a>
+  <a href="#cmd-visualize">6.8 visualize</a>
+  <a href="#cmd-examine">6.9 examine</a>
+  <a href="#cmd-collar">6.10 collar</a>
+  <a href="#cmd-other">6.11 grow / quilt / node</a>
+
+  <h3>核心算法 / Core Algorithms</h3>
+  <a href="#metric">7. 度量场 (Riemannian metric)</a>
+  <a href="#multiscale-math">8. 多尺度度量数学</a>
+  <a href="#recon">9. 梯度/Hessian 重构</a>
+  <a href="#gradation">10. 度量梯度限幅</a>
+  <a href="#intersect">11. 度量相交</a>
+  <a href="#curvature">12. 曲率特征度量</a>
+  <a href="#adaptloop">13. 自适应循环</a>
+  <a href="#split">14. 边分裂</a>
+  <a href="#collapse">15. 边塌缩</a>
+  <a href="#swap">16. 边/面互换</a>
+  <a href="#smooth">17. 顶点光顺</a>
+  <a href="#cavity">18. Cavity 重构</a>
+
+  <h3>混合网格 / Mixed-Grid</h3>
+  <a href="#mixed-overview">19. 混合网格总览</a>
+  <a href="#mixed-subdiv">20. ref_subdiv 自适应细分</a>
+  <a href="#mixed-shard">21. ref_shard 一致碎裂</a>
+  <a href="#mixed-layer">22. ref_layer 层装配</a>
+  <a href="#mixed-inflate">23. ref_inflate 边界层膨胀</a>
+
+  <h3>支撑模块 / Supporting</h3>
+  <a href="#geom">24. 几何/CAD 接口</a>
+  <a href="#parallel">25. 并行与负载均衡</a>
+  <a href="#ipc">26. 场插值</a>
+  <a href="#util">27. 数据结构与工具</a>
+  <a href="#api">28. C 库 API 速查</a>
+  <a href="#refs">29. 参考文献</a>
+</nav>
+
+<main>
+
+<!-- ==================================================================== -->
+<h2 id="intro">1. 项目简介</h2>
+<p><b>refine</b> 是 NASA 兰利研究中心开源的二维/三维非结构网格自适应平台
+（C 语言实现，Apache-2.0 协议）。其主要面向<strong>线性与高阶曲面单纯形
+（三角形、四面体）</strong>网格的度量驱动 (metric-driven) 各向异性自适应；
+同时也提供<strong>有限的混合单元（四边形、棱柱、金字塔、六面体）存储、修改
+与就地分裂</strong>能力，可用于附面层网格的处理与转换。</p>
+
+<p>典型工作流：</p>
+<ol>
+  <li>从 <code>.egads</code> CAD 模型自举 (bootstrap) 出第一套体网格；</li>
+  <li>由解 (scalar) 重构 Hessian，构造 <em>multiscale</em> 各向异性度量；</li>
+  <li>按度量场对网格执行自适应（split / collapse / swap / smooth）；</li>
+  <li>把解从旧网格<em>插值</em>到新网格继续 CFD 迭代；</li>
+  <li>循环 (loop)，直到解与网格互相一致。</li>
+</ol>
+
+<p>命令行可执行 <code>ref</code>（串行）/ <code>refmpi</code>（并行 EGADSlite）
+/ <code>refmpifull</code>（并行 + 完整 EGADS+OpenCASCADE）。
+所有算法亦以 <em>library</em> 形式暴露，可被 C/C++/Fortran 程序链接调用。</p>
+
+<div class="info"><b>版本说明：</b>本手册基于源码树 <code>src/</code> 与
+<code>src/ref_subcommand.c</code>、<code>src/ref_subdiv.c</code>、
+<code>src/ref_metric.c</code>、<code>src/ref_recon.c</code>、
+<code>src/ref_adapt.c</code> 等文件直接生成，所引用行号均来自当前仓库。</div>
+
+<!-- ==================================================================== -->
+<h2 id="install">2. 编译与安装</h2>
+
+<h3>2.1 必备与可选依赖</h3>
+<table>
+<tr><th>依赖</th><th>角色</th><th>必需性</th><th>说明</th></tr>
+<tr><td>C 编译器</td><td>编译核心库</td><td>必需</td><td>C99；GCC / Clang / Intel 均可。</td></tr>
+<tr><td>MPI</td><td>并行 (refmpi)</td><td>可选</td><td>OpenMPI、MPICH、Intel MPI。</td></tr>
+<tr><td>EGADS / EGADSlite</td><td>CAD 评估</td><td>可选</td><td>来自 ESP；EGADSlite 仅可读 <code>.egads</code> 字节流。</td></tr>
+<tr><td>OpenCASCADE</td><td>CAD 内核</td><td>可选</td><td>仅 <code>refmpifull</code> 与 <code>ref</code> 的完整 EGADS 需要。</td></tr>
+<tr><td>ParMETIS / Zoltan</td><td>并行分区</td><td>可选</td><td>无则回退到内置递归坐标二分 RCB。</td></tr>
+<tr><td>TetGen / AFLR3</td><td>初始体网格生成</td><td>可选</td><td>仅 <code>bootstrap / grow</code> 用，需在 <code>$PATH</code>。</td></tr>
+<tr><td>MeshLink</td><td>替代几何源</td><td>可选</td><td><code>--meshlink</code> 选项使用。</td></tr>
+</table>
+
+<h3>2.2 Autotools 构建</h3>
+<pre>./bootstrap
+mkdir build && cd build
+../configure --prefix=$PWD \
+  --with-mpi=/path/to/mpi \
+  --with-parmetis=/path/to/parmetis \
+  --with-EGADS=/path/to/egads \
+  --with-OpenCASCADE=/path/to/opencascade
+make
+make install</pre>
+
+<h3>2.3 CMake 构建</h3>
+<pre>mkdir build && cd build
+cmake .. -DCMAKE_INSTALL_PREFIX=$PWD \
+  -DCMAKE_PREFIX_PATH="/mpi;/parmetis;/egads;/opencascade"
+make
+make install</pre>
+
+<p>安装产物位于 <code>$PREFIX/bin</code> 与 <code>$PREFIX/lib</code>。
+头文件在 <code>$PREFIX/include</code>，CMake 包配置文件
+<code>refineConfig.cmake</code> 也会安装。</p>
+
+<!-- ==================================================================== -->
+<h2 id="executables">3. 可执行程序</h2>
+<table>
+<tr><th>可执行文件</th><th>MPI</th><th>EGADS（OpenCASCADE）</th><th>EGADSlite</th><th>用途</th></tr>
+<tr><td><code>ref</code></td><td>—</td><td>✔</td><td>—</td><td>串行；带完整 CAD 内核。</td></tr>
+<tr><td><code>refmpi</code></td><td>✔</td><td>—</td><td>✔</td><td>并行；只可读已嵌入 <code>.meshb</code> 的 <code>.egads</code> 字节流。</td></tr>
+<tr><td><code>refmpifull</code></td><td>✔</td><td>✔</td><td>—</td><td>并行 + 完整 OpenCASCADE。</td></tr>
+</table>
+
+<p>调用方式：<code>ref &lt;subcommand&gt; &lt;args&gt;</code> 或
+<code>mpiexec -n N refmpi &lt;subcommand&gt; ...</code>。
+不带子命令时打印总帮助；<code>ref &lt;subcommand&gt; -h</code> 打印子命令帮助。
+源码中子命令分发在
+<code>src/ref_subcommand.c</code> 第 <code>4880-4978</code> 行（按首字母前缀匹配）。</p>
+
+<!-- ==================================================================== -->
+<h2 id="formats">4. 支持的文件格式</h2>
+
+<h3>4.1 网格文件 (mesh)</h3>
+<p>由文件后缀自动选择 reader / writer，源自
+<code>ref_import_by_extension</code> (第 1699 行) 与
+<code>ref_export_by_extension</code> (第 2713 行)。</p>
+<table>
+<tr><th>扩展名</th><th>方向</th><th>说明</th></tr>
+<tr><td><code>.meshb</code></td><td>读 / 写</td><td>libMeshb 二进制（推荐主格式，含几何/度量/版本）</td></tr>
+<tr><td><code>.lb8.ugrid / .b8.ugrid</code></td><td>读 / 写</td><td>AFLR UGRID 32-bit 整型 little/big-endian 双精度</td></tr>
+<tr><td><code>.lb8l.ugrid / .b8l.ugrid</code></td><td>读 / 写</td><td>同上但 64-bit 节点编号</td></tr>
+<tr><td><code>.lb8.ugrid64 / .b8.ugrid64</code></td><td>读 / 写</td><td>另一种 64-bit 变体</td></tr>
+<tr><td><code>.r8.ugrid / .ugrid</code></td><td>读 / —</td><td>ASCII 或 record-based 旧 UGRID</td></tr>
+<tr><td><code>.tri</code></td><td>读 / —</td><td>Cart3D 三角面格式</td></tr>
+<tr><td><code>.surf</code></td><td>读 / —</td><td>AFLR surface</td></tr>
+<tr><td><code>.fgrid</code></td><td>读 / —</td><td>FUN3D 早期 ASCII</td></tr>
+<tr><td><code>.su2</code></td><td>读 / —</td><td>SU2 求解器</td></tr>
+<tr><td><code>.msh</code></td><td>读 / —</td><td>Gmsh ASCII</td></tr>
+<tr><td><code>.node</code></td><td>读 / —</td><td>TetGen / Triangle node 文件</td></tr>
+<tr><td><code>.grid / .avm</code></td><td>读 / —</td><td>额外 USM3D / AVMesh</td></tr>
+<tr><td><code>.tec</code></td><td>— / 写</td><td>Tecplot ASCII (可视化)</td></tr>
+<tr><td><code>.plt</code></td><td>— / 写</td><td>Tecplot 二进制 (gather 路径)</td></tr>
+</table>
+
+<h3>4.2 解 / 度量文件</h3>
+<table>
+<tr><th>扩展名</th><th>说明</th></tr>
+<tr><td><code>.solb</code></td><td>libMeshb 二进制 solution；refine 的<strong>主</strong>解/度量格式（标量、向量或 6 分量对称张量）。</td></tr>
+<tr><td><code>.snap</code></td><td>AFLR snap 格式</td></tr>
+<tr><td><code>.metric</code></td><td>ASCII 度量场（兼容 UGAWG）</td></tr>
+</table>
+
+<h3>4.3 几何 / 边界条件</h3>
+<ul>
+  <li><code>.egads</code> — ESP/EGADS CAD 模型；可被嵌入 <code>.meshb</code> 内的字节流随网格漂移。</li>
+  <li><code>.mapbc</code> — FUN3D 边界条件映射文件；用 <code>--fun3d-mapbc</code>。</li>
+  <li>USM3D 风格 <code>.mapbc</code> — 用 <code>--usm3d-mapbc</code>。</li>
+  <li><code>--viscous-tags 1,3,7</code> — 直接指定粘性壁面 face id 列表。</li>
+</ul>
+
+<!-- ==================================================================== -->
+<h2 id="cells">5. 单元类型体系</h2>
+
+<p>由 <code>src/ref_cell.h:28</code> 的枚举 <code>REF_CELL_TYPES</code> 定义。
+所有自适应、I/O 与重构均通过 <code>REF_CELL</code> 抽象：</p>
+
+<table>
+<tr><th>编号</th><th>枚举</th><th>维度</th><th>节点数</th><th>边数</th><th>用途</th></tr>
+<tr><td>0</td><td><code>REF_CELL_EDG</code></td><td>1</td><td>2</td><td>1</td><td>线性边 (boundary edge marker)</td></tr>
+<tr><td>1</td><td><code>REF_CELL_ED2</code></td><td>1</td><td>3</td><td>1</td><td>二阶边</td></tr>
+<tr><td>3</td><td><code>REF_CELL_TRI</code></td><td>2</td><td>3</td><td>3</td><td>线性三角面</td></tr>
+<tr><td>4</td><td><code>REF_CELL_TR2</code></td><td>2</td><td>6</td><td>3</td><td>二阶 (P2) 三角</td></tr>
+<tr><td>5</td><td><code>REF_CELL_TR3</code></td><td>2</td><td>10</td><td>3</td><td>三阶 (P3) 三角</td></tr>
+<tr><td>6</td><td><code>REF_CELL_QUA</code></td><td>2</td><td>4</td><td>4</td><td>四边形</td></tr>
+<tr><td>8</td><td><code>REF_CELL_TET</code></td><td>3</td><td>4</td><td>6</td><td>线性四面体（自适应主对象）</td></tr>
+<tr><td>9</td><td><code>REF_CELL_PYR</code></td><td>3</td><td>5</td><td>8</td><td>金字塔（边界层过渡）</td></tr>
+<tr><td>10</td><td><code>REF_CELL_PRI</code></td><td>3</td><td>6</td><td>9</td><td>三棱柱（边界层主体）</td></tr>
+<tr><td>11</td><td><code>REF_CELL_HEX</code></td><td>3</td><td>8</td><td>12</td><td>六面体</td></tr>
+</table>
+
+<p><code>REF_GRID</code> 为它们的容器，独立维护各 group 的连通；
+<code>REF_CELL</code> 中含 <code>e2n[2*edge_per]</code>（局部边节点表）与
+<code>c2n</code> 邻接，<code>edge_per</code> 在 <code>ref_cell.c</code> 第 119-144 行
+按类型设置。</p>
+
+<!-- ==================================================================== -->
+<h2 id="cmd-bootstrap">6.1 bootstrap — 由 EGADS 模型生成首套体网格</h2>
+<pre>ref bootstrap project.egads [-t]
+              [--mesher {tetgen|aflr}]
+              [--mesher-options "&lt;options&gt;"]
+              [--axi]</pre>
+<table>
+<tr><th>选项</th><th>含义</th></tr>
+<tr><td><code>-t</code></td><td>输出 Tecplot 动画 <code>ref_gather_movie.tec</code> 与 <code>ref_gather_histo.tec</code> 跟踪表面曲率自适应过程。</td></tr>
+<tr><td><code>--mesher tetgen|aflr</code></td><td>选择体网格生成器；外部可执行 <code>tetgen</code> 或 <code>aflr3</code> 必须在 <code>$PATH</code>。</td></tr>
+<tr><td><code>--mesher-options "..."</code></td><td>透传到外部 mesher 的命令行字符串（如 <code>"-pq1.4Y"</code>）。</td></tr>
+<tr><td><code>--axi</code></td><td>设置 6022 边界条件；将二维拉伸生成楔形 (wedge)，常用于轴对称问题。</td></tr>
+</table>
+<p>典型流程：① 读取 EGADS → ② 在每个 face 上做曲率驱动表面网格自适应
+（见 §<a href="#curvature">12</a>）→ ③ 调用外部体网格器灌注体积 →
+④ 输出 <code>project-vol.meshb</code>（包含表面网格、体网格、网格-几何关联与 EGADSlite 字节流）。</p>
+
+<!-- ==================================================================== -->
+<h2 id="cmd-adapt">6.2 adapt — 度量驱动的网格自适应</h2>
+<pre>ref adapt input.meshb [-x output.meshb] [选项 ...]</pre>
+
+<h3>6.2.1 主要选项</h3>
+<table>
+<tr><th>选项</th><th>含义</th></tr>
+<tr><td><code>-x out.ext</code></td><td>输出网格；默认按后缀选择 writer。</td></tr>
+<tr><td><code>-m, --metric metric.solb</code></td><td>外部度量场。缺省时使用<strong>表面曲率特征度量</strong>。</td></tr>
+<tr><td><code>-g, --egads geometry.egads</code></td><td>装载 CAD 模型（与 EGADSlite 互斥）。</td></tr>
+<tr><td><code>-s N</code></td><td>自适应 pass 数（默认 15 左右；具体见 <code>ref_adapt.c</code>）。</td></tr>
+<tr><td><code>--implied-complexity C</code></td><td>由当前网格反推 implied metric 并缩放到目标 complexity <em>C</em>。</td></tr>
+<tr><td><code>--spalding [y+] [C]</code></td><td>构造 Spalding 壁面律的多尺度度量；需边界条件。</td></tr>
+<tr><td><code>--stepexp h0 h1 h2 s1 s2 width</code></td><td>分段常数 + 指数生长各向同性度量；离壁距离用 §<a href="#cmd-distance">distance</a> 算法。</td></tr>
+<tr><td><code>--spacing-table file.txt</code></td><td>读距离-h-AR-tag 的查找表，按距离插值生成度量。</td></tr>
+<tr><td><code>--uniform box ...</code> / <code>--uniform cyl ...</code></td><td>叠加盒/圆柱区域的均匀加密度量；正负 decay_distance 分别表示渐疏/渐密。</td></tr>
+<tr><td><code>--fun3d-mapbc file</code> / <code>--viscous-tags list</code></td><td>提供粘性壁面 ID。</td></tr>
+<tr><td><code>--axi</code></td><td>从 2D 拉伸为楔形。</td></tr>
+<tr><td><code>--quad</code> / <code>--prism</code></td><td>在边界形成四边形 / 棱柱（开启混合元素维持，见 §<a href="#mixed-overview">19</a>）。</td></tr>
+<tr><td><code>--unlock</code></td><td>允许自适应破坏被几何<em>锁定</em>的 tet（见 <code>ref_adapt-&gt;unlock_tet</code>）。</td></tr>
+<tr><td><code>--zip-pcurve</code></td><td>沿 p-curve 缝合（curve 段拉链合并）。</td></tr>
+<tr><td><code>--ratio-method N</code></td><td>切换边长度比的度量积分公式（默认 quadrature）。</td></tr>
+<tr><td><code>--partitioner N</code></td><td>分区器：2 ParMETIS / 3 Zoltan graph / 4 Zoltan RCB / 5 native RCB。</td></tr>
+<tr><td><code>--facelift file</code> / <code>--surrogate file</code></td><td>启用 facelift / surrogate 几何（重构高保真表面，详见 §<a href="#geom">24</a>）。</td></tr>
+<tr><td><code>--av</code></td><td>从 EGADS 属性解析 AV (boundary) BC。</td></tr>
+<tr><td><code>--meshlink file</code></td><td>用 MeshLink 几何评估替代 EGADS。</td></tr>
+<tr><td><code>--topo</code></td><td>每 pass 后做拓扑校验。</td></tr>
+<tr><td><code>-f surf.tec</code> / <code>-q vol.tec</code></td><td>输出最终面 / 体单元质量分布 (Tecplot)。</td></tr>
+<tr><td><code>--export-metric-as f.solb</code></td><td>导出最终度量场。</td></tr>
+</table>
+
+<h3>6.2.2 算法时间线</h3>
+<p>每个 pass 在 <code>ref_adapt_pass</code>（<code>ref_adapt.c:620</code>）中以下列顺序执行操作：
+<em>swap → collapse → swap → collapse(放大 ratio) → (swap, smooth)×N →
+swap → split → swap → (smooth, swap)×N → collapse(放大 ratio) → swap →
+(smooth, swap)×N → 可选 unlock_tet</em>。
+顺序的设计目的：先“清理”拓扑（互换/塌缩去除短小或低质边），再做加密
+（split），最后再次互换+光顺以提升网格质量。</p>
+
+<!-- ==================================================================== -->
+<h2 id="cmd-multiscale">6.3 multiscale — 多尺度度量构造</h2>
+<pre>ref multiscale input.meshb scalar.{solb|snap} complexity output-metric.solb [选项]</pre>
+<table>
+<tr><th>选项</th><th>含义</th></tr>
+<tr><td><code>--norm-power p</code></td><td>$L^p$-范数（默认 <em>p</em>=2；伴随/目标量度量常用 <em>p</em>=1）。</td></tr>
+<tr><td><code>--gradation r</code></td><td><em>r</em>&gt;1：纯度量空间梯度限幅；<em>r</em>&lt;0：混合空间梯度限幅（默认 <em>r</em>=−1）。</td></tr>
+<tr><td><code>--aspect-ratio AR</code></td><td>限制度量各向异性比；超出按特征值方向缩放。</td></tr>
+<tr><td><code>--hessian h.solb</code></td><td>跳过重构，直接读取 Hessian 张量场。</td></tr>
+<tr><td><code>--combine s2.solb ratio</code></td><td>将第二标量的度量按权重 <em>ratio</em> 与第一个相<em>交</em>融合。</td></tr>
+<tr><td><code>--buffer</code></td><td>沿 <em>x</em> 最大边界缓慢粗化（用于出口缓冲区）。</td></tr>
+<tr><td><code>--pcd file.pcd</code></td><td>导出各向同性间距点云 (PCD)。</td></tr>
+<tr><td><code>--mixed</code></td><td>当输入为混合元素时使用 §<a href="#mixed-subdiv">混合空间</a>梯度限幅版本 <code>ref_metric_lp_mixed</code>。</td></tr>
+</table>
+<p>详细数学见 §<a href="#multiscale-math">8</a>。</p>
+
+<!-- ==================================================================== -->
+<h2 id="cmd-loop">6.4 loop — 度量+自适应+插值的一体化循环</h2>
+<pre>ref loop &lt;in_project&gt; &lt;out_project&gt; complexity [选项]</pre>
+<p>期望存在 <code>&lt;in_project&gt;_volume.solb</code>（FUN3D 无量纲变量），<em>complexity</em>
+约等于目标顶点数的一半。生成 <code>&lt;out_project&gt;.lb8.ugrid</code>、
+<code>&lt;out_project&gt;_volume.solb</code> 等。重要选项：</p>
+<table>
+<tr><th>选项</th><th>含义</th></tr>
+<tr><td><code>--egads g.egads</code></td><td>载入 CAD（EGADSlite 时忽略）。</td></tr>
+<tr><td><code>--norm-power p</code></td><td>同 multiscale。</td></tr>
+<tr><td><code>--gradation r</code></td><td>同 multiscale；负值 → 混合空间。</td></tr>
+<tr><td><code>--mesh-extension ext</code></td><td>替换默认 <code>lb8.ugrid</code>。</td></tr>
+<tr><td><code>--fixed-point mid t0 dt t1</code></td><td>fixed-point 时均度量（多时间步标量）。</td></tr>
+<tr><td><code>--ddes Mach Re</code></td><td>DDES 度量（混合 RANS/LES），需 <code>--fixed-point</code> 与边界条件。</td></tr>
+<tr><td><code>--aspect-ratio AR</code></td><td>限制 LES 区域各向异性。</td></tr>
+<tr><td><code>--interpolant {mach|...|file.solb}</code></td><td>多尺度的标量场来源；可枚举 mach / htot / ptot / pressure / density / temperature 或读 .solb。</td></tr>
+<tr><td><code>--export-metric</code></td><td>同时写出 <code>&lt;in&gt;-metric.solb</code>。</td></tr>
+<tr><td><code>--opt-goal</code></td><td>Loseille 等 AIAA 2007-4186 目标量度量（需 flow + adjoint）。</td></tr>
+<tr><td><code>--cons-visc Mach Re T</code></td><td>守恒粘性度量（AIAA 2019-2947）。</td></tr>
+<tr><td><code>--deforming</code></td><td>变形网格：volume.solb 中含 xyz。</td></tr>
+<tr><td><code>--mixed</code></td><td>从混合元素隐含多尺度度量（混合空间梯度）。</td></tr>
+<tr><td><code>--axi</code> / <code>--buffer</code></td><td>同 adapt / multiscale。</td></tr>
+</table>
+
+<!-- ==================================================================== -->
+<h2 id="cmd-interpolate">6.5 interpolate — 网格间场插值</h2>
+<pre>ref interpolate donor.meshb donor.solb receptor.meshb receptor.solb [选项]</pre>
+<table>
+<tr><th>选项</th><th>含义</th></tr>
+<tr><td><code>--extrude</code></td><td>把数据复制到两个 z 层（2D→“准 2D”）。</td></tr>
+<tr><td><code>--face id persist.solb</code></td><td>把 <em>persist.solb</em> 复制到 receptor，再用 donor 数据替换给定 face id 的节点。</td></tr>
+</table>
+<p>底层使用 <code>REF_INTERP</code> 的 octree 加速空间搜索，对四面体内做<strong>线性
+重心插值</strong>，对边界点退化为最近表面三角投影。</p>
+
+<!-- ==================================================================== -->
+<h2 id="cmd-distance">6.6 distance — 壁面距离</h2>
+<pre>ref distance mesh.ext distance.solb (--fun3d-mapbc f | --viscous-tags list)</pre>
+<p>对粘性壁面三角集合计算每个体节点到面集合的最短<em>欧氏</em>距离。
+内部基于 <code>REF_SEARCH</code>（kd-tree / octree 双重结构），对每个查询点
+返回距离与最近三角；并行版执行所有 rank 的<em>归约最小</em>。
+用于壁函数、turbulence model、Spalding metric。</p>
+
+<!-- ==================================================================== -->
+<h2 id="cmd-translate">6.7 translate — 网格转换 / 几何变换 / 混合↔单纯形</h2>
+<pre>ref translate input.ext output.ext [选项]</pre>
+<table>
+<tr><th>选项</th><th>含义</th></tr>
+<tr><td><code>--scale s</code></td><td>对原点缩放。</td></tr>
+<tr><td><code>--shift dx dy dz</code></td><td>平移。</td></tr>
+<tr><td><code>--rotatey deg</code></td><td>绕 <em>y</em> 轴旋转。</td></tr>
+<tr><td><code>--surface</code></td><td>提取表面单元（删除体）。</td></tr>
+<tr><td><code>--enrich2</code></td><td>线性单元升阶 → Q2/P2 二阶单元。</td></tr>
+<tr><td><code>--shard</code></td><td><strong>把混合元素一致碎裂为单纯形</strong>（pri/pyr/hex → tet, qua → tri；见 §<a href="#mixed-shard">21</a>）。</td></tr>
+<tr><td><code>--extrude</code></td><td>2D 网格拉伸为单层棱柱；<code>.ugrid</code> 输出隐式启用。</td></tr>
+<tr><td><code>--planes N</code></td><td>拉伸为 <em>N</em> 层棱柱。</td></tr>
+<tr><td><code>--zero-y-face id</code></td><td>把指定 face id 的所有节点 <em>y</em> 强置 0（修复浮点漂移）。</td></tr>
+<tr><td><code>--axi</code></td><td>把拉伸网格转为绕 <em>z</em>=<em>y</em>=0 轴的楔形。</td></tr>
+</table>
+
+<!-- ==================================================================== -->
+<h2 id="cmd-visualize">6.8 visualize — 解可视化与抽取</h2>
+<pre>ref visualize mesh.ext sol.ext output.{tec|plt}</pre>
+<table>
+<tr><th>选项</th><th>含义</th></tr>
+<tr><td><code>--surface</code></td><td>提取表面（同 translate）。</td></tr>
+<tr><td><code>--subtract base.solb</code></td><td>差分：sol − base。</td></tr>
+<tr><td><code>--iso var thr iso.ext</code></td><td>抽取等值面：variable index <em>var</em>，阈值 <em>thr</em>。</td></tr>
+<tr><td><code>--slice nx ny nz off slice.ext</code></td><td>用平面 $\mathbf{n}\cdot\mathbf{x}=\text{off}$ 切片。</td></tr>
+<tr><td><code>--boomray x0 y0 z0 x1 y1 z1 ray.tec</code></td><td>沿一条射线采样（用于 sonic-boom 后处理）。</td></tr>
+</table>
+
+<!-- ==================================================================== -->
+<h2 id="cmd-examine">6.9 examine — 文件元数据</h2>
+<pre>ref examine input.{meshb|solb|ugrid|...}</pre>
+<p>打印节点/单元数、版本、字节序、维度、关键字段，便于排错。</p>
+
+<!-- ==================================================================== -->
+<h2 id="cmd-collar">6.10 collar — 在已有表面上拉伸“衣领”体网格</h2>
+<pre>ref collar &lt;n|f|r&gt; core.ext n_layer first_thick total_thick [选项]</pre>
+<table>
+<tr><th>方法</th><th>含义</th></tr>
+<tr><td><code>n</code> normal</td><td>沿多边棱柱面法向拉伸。</td></tr>
+<tr><td><code>f</code> flat</td><td>用插值面边切线的“平拉”。</td></tr>
+<tr><td><code>r</code> radial</td><td>从原点径向拉伸（不保证不自交）。</td></tr>
+</table>
+<table>
+<tr><th>选项</th><th>含义</th></tr>
+<tr><td><code>--usm3d-mapbc f fam bc</code></td><td>USM3D 边界文件 + family + bc。</td></tr>
+<tr><td><code>--fun3d-mapbc f</code></td><td>FUN3D；要求存在 <em>inflate</em> family。</td></tr>
+<tr><td><code>--rotate deg</code></td><td>膨胀前先绕 z 轴旋转。</td></tr>
+<tr><td><code>--origin ox oy oz</code></td><td>径向拉伸的原点（默认 <code>0 0 zmid</code>）。</td></tr>
+<tr><td><code>-x out.ext</code></td><td>输出网格。</td></tr>
+</table>
+<p>背后调用 <code>ref_inflate_face</code> / <code>ref_inflate_radially</code>
+（见 §<a href="#mixed-inflate">23</a>），按指定首层厚 $h_0$ 与总厚 $H$ 自动求<em>等比增长率</em>
+$r$，使得 $h_0\dfrac{r^N-1}{r-1}=H$（牛顿迭代，见
+<code>ref_inflate_rate</code>，<code>ref_inflate.c:1010</code>）。</p>
+
+<!-- ==================================================================== -->
+<h2 id="cmd-other">6.11 grow / quilt / node（实验性）</h2>
+<ul>
+  <li><code>grow surface.meshb volume.meshb</code> — 调用外部 mesher 把表面填成体网格（同 bootstrap 后半段）。</li>
+  <li><code>quilt original.egads</code> — 构造 EBODY 等效几何（合并 face）。</li>
+  <li><code>node input.meshb i j k ...</code> — 报告节点坐标（zero-based 索引）。</li>
+</ul>
+
+<!-- ==================================================================== -->
+<!--                               ALGORITHMS                              -->
+<!-- ==================================================================== -->
+
+<h2 id="metric">7. 度量场 (Riemannian Metric Field)</h2>
+
+<p>在 refine 中，所有“目标网格大小/形状”信息以<strong>对称正定 3×3 矩阵
+场</strong> $\mathcal{M}(\mathbf{x})\in\mathbb{R}^{3\times3}_{\text{SPD}}$
+表示，每节点存 6 个独立分量
+$(M_{xx},M_{xy},M_{xz},M_{yy},M_{yz},M_{zz})$。其几何意义：
+$\mathbf{v}^\top\mathcal{M}\mathbf{v}=\|\mathbf{v}\|_\mathcal{M}^2$
+为<em>度量长度平方</em>。理想网格使每条边的度量长度
+$\ell_\mathcal{M}\approx 1$，且每单元相对于 $\mathcal{M}$ 接近<em>单位正三角形/四面体</em>。</p>
+
+<h3>7.1 基本量</h3>
+<ul>
+  <li>边度量长度 $\ell_\mathcal{M}(P_0,P_1)=\int_0^1
+      \sqrt{\mathbf{e}^\top \mathcal{M}(P_0+s\mathbf{e})\,\mathbf{e}}\,ds$，
+      $\mathbf{e}=P_1-P_0$；refine 提供多种数值积分（<code>--ratio-method</code>）。
+      最快近似为 $\ell\approx\sqrt{\mathbf{e}^\top\mathcal{M}_{\!\text{avg}}\mathbf{e}}$。</li>
+  <li>单元度量体积 $V_\mathcal{M}=\sqrt{\det\mathcal{M}}\,V_{\text{Euclid}}$。</li>
+  <li>“本征间距” $h_i=1/\sqrt{\lambda_i}$，其中 $\lambda_i$ 为 $\mathcal{M}$ 特征值，
+      对应特征向量给出主方向。</li>
+</ul>
+
+<h3>7.2 复杂度 (Complexity)</h3>
+<p>定义为
+$$\mathcal{C}(\mathcal{M})=\int_\Omega\sqrt{\det\mathcal{M}(\mathbf{x})}\,d\mathbf{x}$$
+与最终顶点数近似呈正比关系（continuous mesh 框架，Loseille &amp; Alauzet）。
+<code>ref_metric_complexity</code>（<code>ref_metric.c:1888</code>）通过 sub-tet
+分解：每个高阶单元被切成若干子四面体，节点贡献为
+$\sum_{k\in\text{node}}\sqrt{\det\mathcal{M}_k}\,V_{\text{tet}}/4$
+（三角形为 $/3$）。MPI 并行下做 <code>allsum</code> 归约。</p>
+
+<h3>7.3 复杂度归一化</h3>
+<p><code>ref_metric_set_complexity</code> 把当前 $\mathcal{M}$ 缩放到目标
+$\mathcal{C}^*$：在 <em>n</em>-D 中
+$$\mathcal{M}\leftarrow \alpha\,\mathcal{M},\qquad
+\alpha=\Bigl(\frac{\mathcal{C}^*}{\mathcal{C}}\Bigr)^{2/n}.$$</p>
+
+<h3>7.4 度量构造途径</h3>
+<table>
+<tr><th>API</th><th>用途</th></tr>
+<tr><td><code>ref_metric_from_curvature</code></td><td>从 CAD 曲率得到表面+法向各向异性度量（见 §<a href="#curvature">12</a>）。</td></tr>
+<tr><td><code>ref_metric_imply_from</code></td><td>由现有网格各向同性反推“implied metric” —— $\mathcal{M}$ 使得每条边度量长度为 1。</td></tr>
+<tr><td><code>ref_metric_imply_non_tet</code></td><td>对棱柱/六面体/金字塔的 implied metric。</td></tr>
+<tr><td><code>ref_metric_lp / lp_mixed</code></td><td>多尺度 $L^p$ 度量（见 §<a href="#multiscale-math">8</a>）。</td></tr>
+<tr><td><code>ref_metric_smr</code></td><td>SMR (Spatial Metric Recombination) 把两个度量按 generalized eigen 分解合并。</td></tr>
+<tr><td><code>ref_metric_opt_goal</code> / <code>ref_metric_belme_*</code> / <code>ref_metric_cons_*</code></td><td>目标量 (goal-oriented) 与守恒粘性度量。</td></tr>
+<tr><td><code>ref_metric_faceid_spacing</code></td><td>沿指定 face id 设置法向与切向各向异性间距。</td></tr>
+<tr><td><code>ref_metric_buffer</code></td><td>边界缓冲区粗化。</td></tr>
+<tr><td><code>ref_metric_limit_aspect_ratio</code></td><td>强制 AR ≤ 给定值；通过特征值 floor。</td></tr>
+<tr><td><code>ref_metric_limit_h</code></td><td>强制最小/最大间距。</td></tr>
+<tr><td><code>ref_metric_sanitize</code></td><td>清理零/负特征值，保证 SPD。</td></tr>
+</table>
+
+<!-- ==================================================================== -->
+<h2 id="multiscale-math">8. 多尺度度量数学（Multiscale Metric）</h2>
+
+<p>多尺度度量用于<strong>控制 $L^p$ 范数下的解插值误差</strong>。给定标量场
+$u(\mathbf{x})$ 和重构 Hessian $H(u)\in\mathbb{R}^{3\times3}_{\text{sym}}$，
+定义“绝对值 Hessian”</p>
+$$|H| = R\,\mathrm{diag}(|\lambda_i|)\,R^\top,\qquad H=R\Lambda R^\top.$$
+<p>对目标 $L^p$ 误差最小，存在最优各向异性度量 (Loseille &amp; Alauzet 2011)：</p>
+$$\boxed{\;
+\mathcal{M}_p(\mathbf{x})=\;D_p\;\bigl(\det|H|\bigr)^{-\frac{1}{2p+n}}\,|H|\,,\qquad
+D_p = \mathcal{C}^{2/n}\!\!\left(\int_\Omega(\det|H|)^{\frac{p}{2p+n}}\right)^{\!\!-2/n}\;}$$
+<p>其中 $n=2,3$ 为空间维度。$D_p$ 由全局复杂度 $\mathcal{C}$ 规范化获得。</p>
+
+<h3>8.1 实现步骤</h3>
+<ol>
+  <li><code>ref_recon_hessian(...)</code> 重构 $H$（L2 投影或 K-exact，§<a href="#recon">9</a>）。</li>
+  <li><code>ref_recon_roundoff_limit</code> 用网格尺度与解抖动抬高最小特征值，避免奇异。</li>
+  <li><code>ref_metric_local_scale(metric, ref_grid, p_norm)</code> 应用上式中的
+      <em>局部</em>缩放 $|H|\to(\det|H|)^{-1/(2p+n)}|H|$；并返回每节点辅助积分量。</li>
+  <li><code>ref_metric_limit_aspect_ratio</code> 限制 AR。</li>
+  <li><code>ref_metric_gradation_at_complexity</code>（或 mixed 版本）做梯度限幅 +
+      复杂度归一（§<a href="#gradation">10</a>）。</li>
+</ol>
+
+<h3>8.2 主入口</h3>
+<pre>REF_FCN REF_STATUS ref_metric_lp(REF_DBL *metric, REF_GRID ref_grid,
+                                 REF_DBL *scalar,
+                                 REF_RECON_RECONSTRUCTION reconstruction,
+                                 REF_INT p_norm, REF_DBL gradation,
+                                 REF_DBL aspect_ratio,
+                                 REF_DBL target_complexity);
+
+REF_FCN REF_STATUS ref_metric_lp_mixed(REF_DBL *metric, REF_GRID ref_grid,
+                                       REF_DBL *scalar,
+                                       REF_RECON_RECONSTRUCTION reconstruction,
+                                       REF_INT p_norm, REF_DBL gradation,
+                                       REF_DBL target_complexity);</pre>
+<p>两者唯一差异：mixed 版调用 <code>ref_metric_gradation_at_complexity_mixed</code>，
+即<strong>混合空间</strong>梯度限幅算法（§<a href="#mixed-overview">19</a>），
+适用于含棱柱/金字塔/六面体的混合网格。</p>
+
+<h3>8.3 Goal-Oriented &amp; Conservative 变体</h3>
+<ul>
+  <li><b>opt-goal</b>（Loseille AIAA 2007-4186）：以目标输出量 $J$ 关于残差的伴随
+      $\psi$ 构造度量
+      $\mathcal{M}\propto |H(\psi^\top R(u))|$，再做 Lp 缩放与归一。</li>
+  <li><b>belme-gfe / belme-gu</b>（Belme et al.）：守恒梯度法、面向 GFE 的版本。</li>
+  <li><b>cons-euler / cons-viscous</b>：守恒型 Euler/Viscous 度量，AIAA 2019-2947。</li>
+  <li><b>moving multiscale</b>：fixed-point 时均，对一组解 $\{u_k\}$ 取
+      $\mathcal{M}=(\sum_k \mathcal{M}_k^{1/p})^{p}$ 风格组合。</li>
+</ul>
+
+<!-- ==================================================================== -->
+<h2 id="recon">9. 梯度与 Hessian 重构</h2>
+
+<p><code>REF_RECON_RECONSTRUCTION</code> 枚举（<code>ref_recon.h:26</code>）有两种：</p>
+<table>
+<tr><th>编号</th><th>枚举</th><th>方法</th></tr>
+<tr><td>0</td><td><code>REF_RECON_L2PROJECTION</code></td><td>线性单元基函数的 $L^2$ 投影梯度，再次投影得 Hessian。</td></tr>
+<tr><td>1</td><td><code>REF_RECON_KEXACT</code></td><td>K-精确最小二乘多项式拟合（解析二阶导）。</td></tr>
+</table>
+
+<h3>9.1 L2 投影梯度</h3>
+<p>在线性 $P_1$ 元下，梯度在每单元为常数。<code>ref_recon_l2_projection_grad</code>
+（<code>ref_recon.c:38</code>）按下式做体积加权：</p>
+$$
+\nabla u\Big|_{v_i} = \frac{\sum_{T\ni v_i} V_T\,\nabla u\big|_T}{\sum_{T\ni v_i}V_T}
+$$
+<p>其中 $V_T$ 为单元体积。Hessian 由<em>对梯度的二次投影</em>合成（取对称化）：</p>
+<pre>H_xx = ∂_x(∂_x u),    H_xy = ½(∂_x∂_y + ∂_y∂_x), ...</pre>
+<p>实现位于 <code>ref_recon_l2_projection_hessian</code>（<code>ref_recon.c:375-413</code>）。</p>
+
+<h3>9.2 K-Exact 最小二乘</h3>
+<p>对每节点构造一定层数的“stencil cloud”（<code>ref_cloud.c</code>）；用二次多项式</p>
+$$
+u(\mathbf{x})\approx u_0 + \mathbf{g}^\top\Delta + \tfrac12\Delta^\top H\Delta,
+\quad \Delta=\mathbf{x}-\mathbf{x}_0
+$$
+<p>对邻域 $m\ge 9$ 个点求超定最小二乘系统 $A\mathbf{c}=\mathbf{b}$，
+其中 $\mathbf{c}=(u_0,\mathbf{g},H)$。<code>ref_recon_kexact_with_aux</code>
+（<code>ref_recon.c:425</code>）使用 <code>ref_matrix_qr</code> 的 QR 分解求解，
+若初次过点不足则向外扩层（最多重试若干次后将该节点 Hessian 置零）。
+K-Exact 对各向异性场更稳健。</p>
+
+<h3>9.3 鲁棒性辅助</h3>
+<table>
+<tr><th>API</th><th>作用</th></tr>
+<tr><td><code>ref_recon_roundoff_limit</code></td><td>$\lambda_i\leftarrow\max(\lambda_i, \varepsilon/h_{\text{loc}}^2)$，去除浮点抖动。</td></tr>
+<tr><td><code>ref_recon_max_jump_limit</code></td><td>限制相邻节点 Hessian 跳变。</td></tr>
+<tr><td><code>ref_recon_extrapolate_zeroth/kexact</code></td><td>对孤立节点用零阶或 K-exact 外插。</td></tr>
+<tr><td><code>ref_recon_mask_tri</code></td><td>在被掩膜的三角片上禁用重构。</td></tr>
+<tr><td><code>ref_recon_rsn / ref_recon_rsn_hess</code></td><td>沿 face 局部 (r,s,n) 框架的二维 Hessian（用于表面/边界层）。</td></tr>
+<tr><td><code>ref_recon_signed_hessian / abs_value_hessian</code></td><td>带符号 / 取绝对值的 Hessian（多尺度需要后者）。</td></tr>
+</table>
+
+<!-- ==================================================================== -->
+<h2 id="gradation">10. 度量梯度限幅 (Gradation)</h2>
+
+<p>无控制时多尺度 Hessian 在解陡变区会让度量沿空间剧烈跳变，导致网格不可用。
+<em>Gradation</em> 将相邻节点度量耦合，使度量沿任意路径的<strong>对数变化率
+受限</strong>，从而生成平滑过渡的网格。</p>
+
+<h3>10.1 度量空间梯度（Alauzet 公式）</h3>
+<p>对边 $(P_0,P_1)$ 与方向 $\mathbf{e}=P_1-P_0$，先以 $\mathcal{M}_1$ 算度量距离
+$\ell = \sqrt{\mathbf{e}^\top\mathcal{M}_1\mathbf{e}}$，
+再用扩张因子</p>
+$$
+\eta = (1+\ell\,\log r)^{-2},
+\qquad r>1\ \text{为允许的相邻边长比上限},
+$$
+<p>得到 <em>限幅度量</em> $\widetilde{\mathcal{M}}_1=\eta\,\mathcal{M}_1$。
+然后对 $\mathcal{M}_0$ 与 $\widetilde{\mathcal{M}}_1$ 做<strong>同时对角化相交</strong>
+（§<a href="#intersect">11</a>）替换 $\mathcal{M}_0$。两端节点对称处理，迭代到收敛。</p>
+<p>实现：<code>ref_metric_metric_space_gradation</code>（<code>ref_metric.c:727</code>），
+注释明确引用 <a href="https://doi.org/10.1016/j.finel.2009.06.028">Alauzet, FEAD
+2010, eq. (9)</a>。</p>
+
+<h3>10.2 混合空间梯度（Mixed-space）</h3>
+<p>纯度量空间梯度对各向异性度量在等向区会“过紧”。Alauzet §6.2.1 提出
+<em>physical-space</em> 与 <em>metric-space</em> 加权混合：
+对 $\mathcal{M}_1=R\Lambda R^\top$ 的每特征值方向 $i$，</p>
+$$
+\eta_i = \Bigl[\;\bigl(1+\sqrt{\lambda_i}\,d\,\log r\bigr)^t\;
+                  \bigl(1+\ell\,\log r\bigr)^{1-t}\Bigr]^{-2},\qquad
+\lambda_i\leftarrow\eta_i\lambda_i,
+$$
+<p>其中 $d=\|\mathbf{e}\|_2$ 为物理欧氏距离，$\ell$ 为度量距离，
+$t\in[0,1]$ 为混合权（默认 <em>t</em>=1/8，源码 826-828 行；若用户传入越界值则
+使用默认）。$r$ 默认 1.5。重构后再做相交。
+实现：<code>ref_metric_mixed_space_gradation</code>（<code>ref_metric.c:812</code>）。</p>
+
+<div class="info"><b>实务建议：</b><code>--gradation 1.5</code> 为度量空间；
+<code>--gradation -1</code>（负值）触发混合空间，<strong>对附面层混合元素更友好</strong>。
+混合空间在贴体方向许可更陡的度量变化，避免在棱柱层不必要地放大法向间距。</div>
+
+<h3>10.3 在指定 complexity 下迭代</h3>
+<p><code>ref_metric_gradation_at_complexity</code>（<code>ref_metric.c:1067</code>）
+反复执行：① 复杂度归一到目标 $\mathcal{C}^*$；② 一次梯度限幅；③ 重新归一……
+直到复杂度收敛（梯度限幅会改变积分体积）。Mixed 版本同理。</p>
+
+<!-- ==================================================================== -->
+<h2 id="intersect">11. 度量相交 (Riemannian Intersection)</h2>
+
+<p>给定两个对称正定矩阵 $\mathcal{M}_a,\mathcal{M}_b$，其交 $\mathcal{M}_{a\cap b}$
+应该是 <em>同时</em>满足两者“最严格”要求的最小度量，几何上对应两个椭圆/椭球的相交。
+refine 采用<strong>同时对角化</strong>方法（<code>ref_matrix_intersect</code>）：</p>
+<ol>
+  <li>解广义特征值问题 $\mathcal{M}_a^{-1}\mathcal{M}_b\,\mathbf{n}_i=\mu_i\mathbf{n}_i$，
+      得到非正交基 $N=[\mathbf{n}_1\,\mathbf{n}_2\,\mathbf{n}_3]$。</li>
+  <li>对每方向取
+      $\lambda_i^{a\cap b} = \max\bigl(\mathbf{n}_i^\top\mathcal{M}_a\mathbf{n}_i,
+                                       \mathbf{n}_i^\top\mathcal{M}_b\mathbf{n}_i\bigr)$
+      （取较大特征值意味着<em>较短</em>的目标边长）。</li>
+  <li>$\mathcal{M}_{a\cap b}=N^{-\top}\,\mathrm{diag}(\lambda_i^{a\cap b})\,N^{-1}$。</li>
+</ol>
+<p>SMR (<code>ref_metric_smr</code>，<code>ref_metric.c:1798</code>) 是相交的“柔化”版本：
+不取 max，而是把 $h^{(b)}$ <em>夹紧</em>到 $h^{(a)}$ 的 ¼–4 倍范围内
+（防止因第二度量过强而剧烈变化），常用于<strong>循环 (loop) 中度量的滑动平均</strong>。</p>
+
+<!-- ==================================================================== -->
+<h2 id="curvature">12. 曲率特征度量 (Curvature Feature Metric)</h2>
+
+<p>当未提供 <code>--metric</code> 时，<code>adapt</code> 与 <code>bootstrap</code> 用
+<code>ref_metric_from_curvature</code>（<code>ref_metric.c:1317</code>）由 CAD 曲率
+派生表面 + 法向各向异性度量。算法：</p>
+
+<ol>
+  <li>取整体包围盒对角线 $D$（<code>ref_egads_diagonal</code>），最大切向间距
+      $h_{\max}=D/N_{\text{seg/diag}}$。</li>
+  <li>对每个表面 face 上的 geom 节点取主曲率 $(\kappa_r,\kappa_s)$ 与对应主方向
+      $(\mathbf{r},\mathbf{s})$（<code>ref_egads_face_curvature</code>）。</li>
+  <li>由“每弧度多少段” $\Delta\theta$ 限制 $r$=半径，得切向间距
+      $h_r = \Delta\theta/\kappa_r$，$h_s = \Delta\theta/\kappa_s$，
+      并由 $r_{\text{limit}}=h_{\max}/\Delta\theta$ 上限。</li>
+  <li>限制各向异性比 $\mathrm{AR}\le 20$（<code>aspect_ratio=20</code>，第 1345 行），
+      用 $\kappa_r\leftarrow\max(\kappa_r,\kappa_s/\mathrm{AR})$ 互相约束。</li>
+  <li>法向间距 $h_n = \min(\text{face initial cell}, 2h_r, 2h_s)$（<code>norm_ratio=2</code>）。</li>
+  <li>组装局部对角度量 $\mathcal{M}=R\,\mathrm{diag}(1/h_r^2,1/h_s^2,1/h_n^2)\,R^\top$
+      并相交到现有度量；<strong>相交</strong>使得几何特征 + 用户度量同时被尊重。</li>
+  <li>体内节点用各向同性 $1/h_{\max}^2 I$ 兜底；表面 crease (法向夹角) 处可触发额外 ramp。</li>
+</ol>
+
+<p><code>ref_metric_constrain_curvature</code>（<code>ref_metric.c:1289</code>）
+在 multiscale 后再用曲率度量做<em>相交</em>，确保 CAD 拐角不被解度量湮没。</p>
+
+<!-- ==================================================================== -->
+<h2 id="adaptloop">13. 自适应主循环 (ref_adapt_pass)</h2>
+
+<p><code>ref_adapt_pass</code>（<code>ref_adapt.c:620</code>）按下表精心安排的顺序
+执行<em>原子操作</em>。每步后可选 <code>ref_gather_blocking_frame</code>（输出动画帧）、
+<code>ref_adapt_tattle</code>（统计度量边长直方图）、<code>ref_adapt_topo</code>（拓扑校验）。</p>
+
+<table>
+<tr><th>阶段</th><th>调用</th><th>意图</th></tr>
+<tr><td>0</td><td><code>ref_adapt_parameter</code></td><td>更新 ratio / quality 准则。</td></tr>
+<tr><td>1</td><td><code>ref_adapt_swap</code></td><td>低质边互换：清理形状。</td></tr>
+<tr><td>2</td><td><code>ref_collapse_pass</code></td><td>过短边塌缩。</td></tr>
+<tr><td>3</td><td><code>ref_adapt_swap</code></td><td>再互换。</td></tr>
+<tr><td>4</td><td><code>ref_collapse_pass</code>(post_max_ratio=√2)</td><td>更激进塌缩，吞掉孤立短边。</td></tr>
+<tr><td>5</td><td>swap + smooth × N</td><td>优化质量，分摊误差。</td></tr>
+<tr><td>6</td><td><code>ref_split_pass</code></td><td>过长边分裂，加密关键区域。</td></tr>
+<tr><td>7</td><td>swap, smooth + swap × N</td><td>细化后再优化。</td></tr>
+<tr><td>8</td><td>collapse(post_max_ratio=√2) + swap + smooth+swap × N</td><td>清理细化产生的短边。</td></tr>
+<tr><td>9</td><td>可选 <code>ref_split_edge_geometry</code></td><td><code>--unlock</code> 时分裂被几何锁的边。</td></tr>
+<tr><td>10</td><td><code>ref_geom_verify_topo</code></td><td>几何拓扑后置校验。</td></tr>
+</table>
+
+<p><code>ref_adapt_create</code>（<code>ref_adapt.c:43-77</code>）默认参数（重要）：</p>
+<table>
+<tr><th>字段</th><th>默认</th><th>含义</th></tr>
+<tr><td><code>split_ratio</code></td><td>$\sqrt{2}$</td><td>边度量长度 ≥ 此值才允许 split</td></tr>
+<tr><td><code>split_quality_absolute</code></td><td>1e-3</td><td>分裂结果绝对最小质量</td></tr>
+<tr><td><code>split_quality_relative</code></td><td>0.1</td><td>分裂质量不得低于原始的 0.1×</td></tr>
+<tr><td><code>collapse_ratio</code></td><td>$1/\sqrt{2}$</td><td>边长 ≤ 此值才允许 collapse</td></tr>
+<tr><td><code>collapse_quality_absolute</code></td><td>1e-3</td><td>塌缩后绝对最小质量</td></tr>
+<tr><td><code>smooth_min_quality</code></td><td>1e-3</td><td>光顺接受门槛</td></tr>
+<tr><td><code>smooth_pliant_alpha</code></td><td>0.2</td><td>pliant smoother 步长</td></tr>
+<tr><td><code>swap_min_quality</code></td><td>0.5</td><td>互换接受门槛</td></tr>
+<tr><td><code>swap_max_degree</code></td><td>10000</td><td>边度数上限</td></tr>
+<tr><td><code>post_max_ratio</code></td><td>3.0</td><td>常规 pass 后置允许最大比</td></tr>
+<tr><td><code>last_max_ratio</code></td><td>6.0</td><td>最后一次允许更松</td></tr>
+</table>
+
+<!-- ==================================================================== -->
+<h2 id="split">14. 边分裂 (ref_split)</h2>
+<p>核心 API（<code>src/ref_split.c</code>）：</p>
+<ul>
+  <li><code>ref_split_pass</code>(76) — 一遍 split。</li>
+  <li><code>ref_split_edge</code>(394) — 单条边在节点中点插入：拓扑替换边周围所有 tet。</li>
+  <li><code>ref_split_face</code>(470) — 三角面分裂为三（2D 内点插入）。</li>
+  <li><code>ref_split_edge_mixed</code>(560) — <strong>混合元素感知</strong>：若边属于 prism/pyr/hex
+      则委托 <code>ref_subdiv</code> 做模板化分裂，并保持单纯形/混合一致。</li>
+  <li><code>ref_split_edge_tet_quality</code>(578) / <code>tri_quality</code>(835) —
+      预测分裂后所有相关单元最小质量，作为接受准则。</li>
+  <li><code>ref_split_edge_ratio</code>(635) — 边度量比检查。</li>
+  <li><code>ref_split_edge_density</code>(699) — 基于度量复杂度密度检查。</li>
+  <li><code>ref_split_edge_tri_conformity</code>(750) — 沿几何边保证表面三角同构。</li>
+  <li><code>ref_split_edge_pattern</code>(889) — 全局按某 pattern (first, increment) 强制分裂；可视作脚本化测试钩。</li>
+  <li><code>ref_split_edge_geometry</code>(934) — 解锁被几何 hold 住的体边。</li>
+</ul>
+
+<h3>14.1 接受准则</h3>
+<p>边 $(P_0,P_1)$ 触发 split 需同时满足：
+$\ell_\mathcal{M}\ge\sqrt{2}$，新顶点几何投影成功（CAD on edge → on face → on volume），
+且分裂后 cavity 中所有 tet 的<strong>度量质量</strong>
+$Q_T = \alpha\,V_T/\bigl(\sum\ell_e^2\bigr)^{3/2}$（含归一系数）
+不低于绝对/相对门槛。
+对 CAD 边节点，新点用 EGADS 评估 (<code>ref_egads_edge_eval</code>)
+保证落在曲线上。</p>
+
+<!-- ==================================================================== -->
+<h2 id="collapse">15. 边塌缩 (ref_collapse)</h2>
+<p><code>ref_collapse_pass</code>（<code>ref_collapse.c:86</code>）扫描所有边；
+对短边（$\ell_\mathcal{M}\le 1/\sqrt{2}$）尝试把 node1 合并到 node0：</p>
+<ol>
+  <li><code>ref_collapse_edge_manifold</code>(444) — 流形检查：合并后表面/体仍 2-流形。</li>
+  <li><code>ref_collapse_edge_geometry</code>(370) — 几何兼容（不跨曲线/face 边界）。</li>
+  <li><code>ref_collapse_edge_cad_constrained</code>(755) — CAD 约束：保持 EGADS 评估有效。</li>
+  <li><code>ref_collapse_edge_chord_height</code>(585) — 弦高（与几何偏差）阈值。</li>
+  <li><code>ref_collapse_edge_same_normal</code>(643) — 法向夹角控制（avoid creasing）。</li>
+  <li><code>ref_collapse_edge_normdev</code>(926) — 整体法向偏差度。</li>
+  <li><code>ref_collapse_edge_ratio</code>(868) — 合并后所有相邻边 ratio 必须在
+      $[\text{post\_min},\text{post\_max}]$。</li>
+  <li><code>ref_collapse_edge_tri_quality</code>(789)/<code>tet_quality</code>(830) — 质量门槛。</li>
+  <li><code>ref_collapse_edge_mixed</code>(693) — 拒绝在混合元素附面层内不安全的塌缩。</li>
+</ol>
+<p>所有检查都通过则调用 <code>ref_collapse_edge</code>(322) 实际删除节点
+（<code>ref_collapse_to_remove_node1</code>(162)）。</p>
+
+<!-- ==================================================================== -->
+<h2 id="swap">16. 边/面互换 (ref_swap)</h2>
+<p><code>ref_swap_pass</code>（<code>ref_swap.c:181</code>）枚举内部边并尝试拓扑互换以
+提高最坏单元质量。三维主算法：</p>
+<ul>
+  <li><code>ref_swap_node23</code>(244) — 2-3 互换：两个共面 tet → 三个共边 tet。</li>
+  <li><code>ref_swap_remove_two_face_cell</code>(30) — 3-2 反向互换。</li>
+  <li><code>ref_swap_remove_three_face_cell</code>(96) — 4-4 边环互换。</li>
+  <li><code>ref_swap_conforming</code>(502) — 检查 cavity 是否凸 (Delaunay-like 安全)。</li>
+  <li><code>ref_swap_quality</code>(641) — Min-max quality 评分；接受当且仅当
+      $\min Q_{\text{new}} > \min Q_{\text{old}}$ 且 $\ge$ <code>swap_min_quality</code>。</li>
+</ul>
+<p>2D 表面 swap：<code>ref_swap_tri_pass</code>(728) 尝试边翻转 (edge flip) 提升表面质量；
+<code>ref_swap_geom_topo</code>(458) 防止破坏 CAD topology。</p>
+
+<!-- ==================================================================== -->
+<h2 id="smooth">17. 顶点光顺 (ref_smooth)</h2>
+<p>对每节点计算<em>理想位置</em>，并接受当且仅当所有相邻单元质量不下降
+且度量比、CAD 投影合法。重要 API：</p>
+<ul>
+  <li><code>ref_smooth_tri_ideal</code>(274) / <code>ref_smooth_tri_weighted_ideal</code>(533) —
+      表面三角的“理想点”：以邻接边的度量加权重心。</li>
+  <li><code>ref_smooth_tri_ratio_around</code>(124) — 评估邻接边度量比偏离 1 的程度。</li>
+  <li><code>ref_smooth_tri_quality_around</code>(160) — 邻接最小质量。</li>
+  <li><code>ref_smooth_tri_normdev_around</code>(186) — 法向偏差。</li>
+  <li><code>ref_smooth_tet_ratio_around</code>(1274), <code>tet_quality_around</code>(1248) — 四面体版本。</li>
+  <li><code>ref_smooth_edge_neighbors</code>(686) — 沿 CAD 曲线节点的“拉直”光顺。</li>
+</ul>
+<p>采用 <em>pliant smoothing</em>：
+$\mathbf{x}\leftarrow\mathbf{x}+\alpha(\mathbf{x}^*-\mathbf{x})$，
+$\alpha=$ <code>smooth_pliant_alpha</code>=0.2，迭代到收敛或达到 <code>smooth_min_quality</code> 之下。</p>
+
+<!-- ==================================================================== -->
+<h2 id="cavity">18. Cavity 重构 (ref_cavity)</h2>
+<p><code>REF_CAVITY</code>（<code>src/ref_cavity.c</code>）封装<em>插入/删除节点的局部
+重新四面体化</em>。任何 split / collapse / swap 在内部都构造 cavity 边界面集合，
+重新生成 tet 集合，并比较新旧质量。Cavity 也是 <strong>cavity-based 自适应</strong>
+的统一入口（实验：可一次替换数百个 tet）。关键阶段：</p>
+<ol>
+  <li>种子单元/节点 → 广度优先扩张 cavity。</li>
+  <li>计算 cavity 边界面 (boundary triangles)。</li>
+  <li>对每个 boundary triangle + 中心节点形成 tet。</li>
+  <li>检查体积正、最小质量 ≥ 门槛。</li>
+  <li>原子提交或回滚。</li>
+</ol>
+<p>对 CAD 节点会强制几何投影；对 ghost / parallel 节点拒绝跨分区 cavity（避免分布式锁问题）。</p>
+
+<!-- ==================================================================== -->
+<!--                              MIXED-GRID                                -->
+<!-- ==================================================================== -->
+
+<h2 id="mixed-overview">19. 混合网格自适应总览（重点章节）</h2>
+
+<div class="info"><b>背景：</b>典型粘性 CFD 网格使用<em>结构化棱柱/六面体附面层</em>+
+<em>非结构四面体</em>外场，称为“混合网格 (mixed grid)”。refine 的核心自适应面向
+单纯形（tet/tri），但提供两类机制处理混合元素：
+<b>(1)</b> <code>ref_subdiv</code> 模板化各向异性<em>就地细分</em>（保留 prism/pyr/hex），
+<b>(2)</b> <code>ref_shard</code> <em>就地碎裂</em>为 tet/tri 后走单纯形路径。
+此外 <code>ref_layer</code> 与 <code>ref_inflate</code> 提供层装配/膨胀工具，
+以及 <code>ref_metric_*_mixed</code> 与混合空间梯度限幅在度量层面尊重各向异性附面层。</div>
+
+<h3>19.1 总体策略图</h3>
+<div class="ascii">
+                     ┌─────────────────────────────┐
+   读入混合网格 ───► │  REF_GRID  (tet|pri|pyr|hex) │
+                     └──────────────┬──────────────┘
+                                    │
+        ┌───────────────────────────┼───────────────────────────┐
+        │                           │                           │
+        ▼                           ▼                           ▼
+  ref_subdiv                   ref_shard                 ref_metric_lp_mixed
+  (各向异性细分,                (一致碎裂                 + mixed-space
+   保 prism/pyr)                 ─►单纯形)                gradation
+                                    │
+                                    ▼
+                              standard ref_adapt
+</div>
+
+<h3>19.2 与梯度限幅的关系</h3>
+<p>混合空间梯度限幅（§<a href="#gradation">10.2</a>）<strong>专为混合网格设计</strong>：
+附面层节点的度量在贴体方向 $\mathbf{n}$ 上特征值非常大（小 $h_n$），切向小。
+单纯使用度量空间扩张系数 $(1+\ell\log r)^{-2}$ 会按 $\ell\propto\sqrt{\lambda_n}$
+快速放大法向间距，破坏附面层；混合空间公式按物理距离 $d$ 与
+$\sqrt{\lambda_i}\,d$ 分别处理三个特征方向，<em>仅在物理上较远</em>时才放松，
+保留贴壁高纵横比。</p>
+
+<!-- ==================================================================== -->
+<h2 id="mixed-subdiv">20. <code>ref_subdiv</code> 各向异性模板细分</h2>
+
+<p>对<strong>四面体</strong>+<strong>金字塔</strong>+<strong>三棱柱</strong>+<strong>六面体</strong>
+统一支持的<em>边标记 → 模板分裂</em>子系统。每条边带 0/1 mark，由
+<code>map = Σ 2^edge·mark</code> 编码到一个整数；按 map 选模板分裂。</p>
+
+<h3>20.1 数据结构</h3>
+<pre>typedef struct REF_SUBDIV_STRUCT *REF_SUBDIV;
+ref_subdiv_create(&amp;ref_subdiv, ref_grid)
+ref_subdiv-&gt;mark[edge]              // 0/1 标记
+ref_subdiv-&gt;node[edge]              // 边中点新生成的全局/局部节点
+ref_subdiv-&gt;allow_geometry          // 是否允许 CAD 边/面分裂
+ref_subdiv-&gt;new_mark_allowed        // 是否允许 relax 阶段新增 mark
+ref_subdiv-&gt;instrument              // 输出统计</pre>
+
+<h3>20.2 标记 API</h3>
+<table>
+<tr><th>API</th><th>含义</th></tr>
+<tr><td><code>ref_subdiv_mark_to_split(node0,node1)</code></td><td>把指定全局边设为待分裂。</td></tr>
+<tr><td><code>ref_subdiv_mark_all</code></td><td>所有边一致 1（均匀加密）。</td></tr>
+<tr><td><code>ref_subdiv_mark_prism_by_metric</code></td><td>对每棱柱的<em>三角面 6 条边</em>（即 prism 的 cell-edge {0,1,3,6,7,8}），
+若度量比 &gt; $\sqrt{2}$ 则标记。</td></tr>
+<tr><td><code>ref_subdiv_mark_prism_by_ratio</code></td><td>给定每节点 ratio 数组，若两端节点 ratio &lt; ½√2 则标记。</td></tr>
+<tr><td><code>ref_subdiv_mark_prism_sides</code></td><td>对棱柱<em>侧边</em> {2,4,5} 强制标记 → 法向加密。</td></tr>
+</table>
+
+<h3>20.3 标记一致化 (Relaxation)</h3>
+<p>为保证可用模板存在，需要对邻接元素的 mark 做<strong>松弛</strong>：</p>
+<ul>
+  <li><code>edge_or(ce0,ce1)</code> — 棱柱顶/底对应边必须一致（参考 <code>ref_subdiv.c:311-322</code>）。</li>
+  <li><code>promote_2_3(ce0,ce1,ce2)</code> — 一个三角面上 2 条边被标记则提升为 3 条
+      （等价于该面被 4 等分模板）。</li>
+  <li><code>promote_2_all()</code> — 棱柱中若顶/底配对（如 0&amp;5、1&amp;4、2&amp;1）出现 2 mark，
+      则提升为全 6 条 → 棱柱被 4 等分。</li>
+  <li><code>ref_subdiv_mark_relax</code>(372) 在 MPI 下用 <code>ref_edge_ghost_int</code>
+      同步邻 rank 边的 mark，循环直到不再变化。</li>
+  <li><code>ref_subdiv_unmark_relax</code>(550)、<code>ref_subdiv_unmark_neg_tet_relax</code>(808)
+      —— 反向：若产生负体积或几何不兼容，去掉 mark；
+      <code>unmark_geom_support</code>(857) 在 <code>!allow_geometry</code> 时清掉所有 CAD 支持边的 mark。</li>
+  <li><code>ref_subdiv_test_impossible_marks</code>(2426) 在分裂前最终校验。</li>
+</ul>
+
+<h3>20.4 模板字典 (map → split pattern)</h3>
+
+<h4>四面体 (TET, 6 边, map ∈ [0,63])</h4>
+<p><code>ref_subdiv_split_tet</code>(1627) 实现常用 map：
+<code>0</code>(无)；<code>1,2,4,8,16,32</code>(单边 1→2 tet)；
+<code>3,5,…,48</code>(同节点两条边 1→3 tet)；
+<code>34,17,12</code>(对边 1→4 tet)；
+<code>11,…</code>(同面三边 1→4 tet)；以及全 6 边
+<code>63</code> 的 1→8 均匀细分（Bey/Freudenthal）。
+每条边中点用 <code>ref_subdiv_node_between</code> 查表 → 共享节点。</p>
+
+<h4>三棱柱 (PRI, 9 边)</h4>
+<p><code>ref_subdiv_split_pri</code>(1401) 支持 map：</p>
+<table>
+<tr><th>map</th><th>含义</th><th>结果</th></tr>
+<tr><td>0</td><td>无</td><td>不变</td></tr>
+<tr><td>52</td><td>仅侧边 {2,4,5} 标记</td><td>1 棱柱 → 2 棱柱（法向 2 等分）</td></tr>
+<tr><td>65</td><td>顶/底配对 {0,6}</td><td>1 棱柱 → 2 棱柱（沿一条三角对边 split）</td></tr>
+<tr><td>130</td><td>{1,7}</td><td>同上其他方向</td></tr>
+<tr><td>264</td><td>{3,8}</td><td>同上</td></tr>
+<tr><td>459</td><td>顶+底两个三角面被 4 等分</td><td>1 棱柱 → 4 棱柱（切向 4 等分；保留侧不变）</td></tr>
+</table>
+<p>组合 459+52 → 1→8 均匀细分（need 全侧边 mark 来匹配，仍由 promote 规则保证）。</p>
+
+<h4>金字塔 (PYR, 8 边)</h4>
+<p><code>ref_subdiv_split_pyr</code>(1803) 一般会把金字塔退化为 prism + tet 混合体
+（对 quad 底分裂的副产物），是<em>最后</em>调用的 split 函数。</p>
+
+<h4>六面体 (HEX, 12 边)</h4>
+<p><code>ref_subdiv_split_pyr</code> 之后由其他模板把 hex 拆分；
+<code>ref_subdiv_to_hex</code>(2536) 允许把若干 prism 重新合并成 hex（均一情况）。</p>
+
+<h4>表面元素</h4>
+<ul>
+  <li><code>ref_subdiv_split_tri</code>(1129)：三角的 7 种 map（1→2, 1→3, 1→4 模式），
+      <strong>注释中明确：tri 最后调用，因为它可能产生 quad（在边界与混合棱柱体共面分裂时）</strong>。</li>
+  <li><code>ref_subdiv_split_qua</code>(1031)：四边形 4 种 map（一对边、对角边、全边）。</li>
+  <li><code>ref_subdiv_split_edg</code>(1350)：1D 边切两段。</li>
+</ul>
+
+<h3>20.5 分裂主流程 <code>ref_subdiv_split</code>(2139)</h3>
+<pre>1. ref_node_synchronize_globals    // 并行全局编号
+2. (allow_geometry分支)
+   ├ relax marks ────────────► test_impossible_marks
+   └ new_node ───────────────► unmark_neg_tet_relax ──► new_node
+   (else)
+   ├ unmark_geom_support
+   ├ relax → unmark_geom_support → unmark_relax → impossible
+   └ new_node
+3. split_tet → split_pri → split_pyr   // 体单元
+4. split_qua → split_tri               // 表面单元
+5. split_edg                           // 边
+6. 清理无任何邻接体单元的孤立节点（可能来自 ghost 区域）</pre>
+
+<h3>20.6 验证与可视化</h3>
+<ul>
+  <li><code>ref_subdiv_inspect_cell / inspect_global</code> — 打印边 mark + 节点 global。</li>
+  <li><code>ref_subdiv_mark_verify</code>(2237) — 把所有 cell-edge 的 mark 输出 Tecplot
+      <code>ref_subdiv_verify.tec</code> 以便 ParaView/Tecplot 调试。</li>
+  <li><code>ref_subdiv_test_pri</code>(2353) / <code>test_impossible_marks</code>(2426) —
+      静态测试；在 CI (acceptance) 中作为 sanity check。</li>
+</ul>
+
+<h3>20.7 数学解释</h3>
+<p>若把 prism 视作 tri 拉伸 $h_n$ 高度，
+其 implied metric 张量在 $(\mathbf{r},\mathbf{s},\mathbf{n})$ 框架下为
+$\mathrm{diag}(1/h_r^2,1/h_s^2,1/h_n^2)$。
+当解的 Hessian 在贴壁切向变化（如激波贴壁），<code>mark_prism_by_metric</code>
+检测三角面边的<strong>度量比 $\ell_\mathcal{M}$</strong>，仅当 &gt; $\sqrt{2}$
+（即超出“理想-1”因子根号 2）才标记切向边；侧边由 promote_2_all 维持配对，
+保证两端三角面边集合一致，分裂后<em>每个棱柱仍是棱柱</em>，附面层结构保留。</p>
+
+<p>反之 <code>mark_prism_sides</code> 强制法向加密，常配合<strong>外部驱动的</strong>
+$y^+\to 1$ 调节。Mixed-space gradation 的物理距离项 $d$ 在棱柱层为 $h_n\ll 1$，
+因此即使度量距离 $\ell$ 大，扩张系数受 $d$ 抑制，相邻棱柱列法向间距保持渐变光滑。</p>
+
+<!-- ==================================================================== -->
+<h2 id="mixed-shard">21. <code>ref_shard</code> 一致碎裂</h2>
+
+<p>当下游求解器只能吃单纯形（或要 facelift / surrogate 表面），混合元素需要
+被<strong>无歧义、邻面一致</strong>地碎裂为 tet/tri。
+<code>ref_shard</code>（<code>src/ref_shard.c</code>）实现“2-对角” vs “3-对角”
+hex/pri/pyr quad-面碎裂的全局一致选择。</p>
+
+<h3>21.1 quad 面对角的两种选择</h3>
+<p>每个四边形面有 4 个角 0,1,2,3：</p>
+<div class="ascii">
+   3 ------ 2          3 ------ 2
+   |       /|          |\       |
+   |      / |   或     | \      |
+   |     /  |          |  \     |
+   |    /   |          |   \    |
+   |   /    |          |    \   |
+   0 ------ 1          0 ------ 1
+   "mark = 2"          "mark = 3"
+   对角线 0-2 / 等价     对角线 1-3 / 等价
+   2-对角                3-对角
+</div>
+<p><code>ref_shard_mark_to_split(node0,node1)</code>(63) 把面 mark 设为 2 或 3，
+按 node0/node1 是否命中 face 的 2 或 3 号节点判断。任何冲突（要 2 又要 3）抛 <code>REF_FAILURE</code>。</p>
+
+<h3>21.2 一致性松弛 <code>ref_shard_mark_relax</code>(226)</h3>
+<p>每个 hex 上 6 个 quad 面，对相对的两面（顶/底、左/右、前/后）的对角必须
+匹配，否则同一 hex 在两个 quad 面上无法共享一致的 tet 划分。
+<code>ref_shard_pair</code>(210) 校验<em>对面的对角线</em>是否同时被 mark：
+若不一致则自动追加 mark（“pair-up”），while-loop 直到全局收敛
+（多 rank 通过<em>ghost 同步</em>，见 ref_face_ghost）。</p>
+
+<p>具体配对（基于 hex 节点编号 0–7）：</p>
+<table>
+<tr><th>面对</th><th>对应对角</th></tr>
+<tr><td>顶/底面</td><td>(1-4) ↔ (2-7), (5-0) ↔ (6-3)</td></tr>
+<tr><td>前/后面</td><td>(1-6) ↔ (0-7), (5-2) ↔ (4-3)</td></tr>
+<tr><td>左/右面</td><td>(0-2) ↔ (4-6), (1-3) ↔ (5-7)</td></tr>
+</table>
+
+<h3>21.3 拆分 <code>ref_shard_split</code>(266)</h3>
+<p>遍历 hex/pri/pyr 与 quad/tri，按 mark 模板调用：</p>
+<ul>
+  <li><code>ref_shard_add_pri_as_tet</code>(475) — prism → 3 个 tet
+      （根据 3 个侧面 quad 的对角组合，6 种合法情形）。</li>
+  <li><code>ref_shard_add_pyr_as_tet</code>(602) — pyramid → 2 个 tet
+      （quad 底的对角选择决定）。</li>
+  <li><code>ref_shard_add_hex_as_tet</code>(662) — hex → 5 或 6 个 tet
+      （“Delaunay-like” 划分，依赖三对面的对角组合）。</li>
+  <li><code>ref_shard_add_qua_as_tri</code>(1063) — quad → 2 个 tri。</li>
+</ul>
+<p>所有新 tet 由 <code>ref_shard_cell_add_local</code>(442) 写入；原 mixed 元素被移除。</p>
+
+<h3>21.4 高级 API</h3>
+<ul>
+  <li><code>ref_shard_in_place(ref_grid)</code>(1182) —— <strong>主入口</strong>，
+      对整个 <code>REF_GRID</code> 执行碎裂。<code>translate --shard</code> 即调用本函数。</li>
+  <li><code>ref_shard_prism_into_tet</code>(915) —— 仅碎棱柱（保留 hex/pyr）。</li>
+  <li><code>ref_shard_extract_tri</code>(1105)/<code>extract_tet</code>(1146) —— 把碎分结果作为<em>新</em> grid 提取。</li>
+  <li><code>ref_shard_verify_faces</code>(1123) —— 校验：碎分后表面/体共享面仍闭合。</li>
+  <li><code>ref_shard_mark_cell_edge_split</code>(164) —— 由<em>边 cell-edge id</em> 反推哪些
+      面对角应 mark（用于把 “沿某 hex 边各向异性 split” 的请求转译为面 mark）。</li>
+</ul>
+
+<h3>21.5 数学/几何说明</h3>
+<p>每个 hex 6 面共有 $2^6=64$ 种对角组合，但只有满足<strong>三对面 pair-up</strong>条件
+的组合（4 对 = 16 种）能被一致碎分为 tet。<code>ref_shard_pair</code> 求解的是
+线性约束下的 SAT 问题；通过单元局部贪心 + ghost 同步（每 rank 信息一致）
+保证全局收敛。该算法相当于在 hex 对偶图上找一个一致的<em>方向场</em>。</p>
+
+<!-- ==================================================================== -->
+<h2 id="mixed-layer">22. <code>ref_layer</code> 层装配</h2>
+<p><code>src/ref_layer.c</code> 提供把<em>表面</em>（tri/qua）按法向<em>拉伸成层</em>
+（prism/hex），或把已有 tet 体的近壁层<em>就地重构</em>为 prism/pyr 的工具。
+适用于把纯四面体 RANS 网格的近壁区<strong>升级</strong>为各向异性混合网格。</p>
+
+<table>
+<tr><th>API</th><th>作用</th></tr>
+<tr><td><code>ref_layer_create / attach</code>(40, 66)</td><td>关联到一个 ref_grid。</td></tr>
+<tr><td><code>ref_layer_normal</code>(79)</td><td>计算每节点的<em>面积加权法向</em> $\mathbf{n}=\sum_T A_T\mathbf{n}_T/\|\cdot\|$。</td></tr>
+<tr><td><code>ref_layer_puff</code>(118)</td><td>“吹气”：沿法向插入新节点形成 prism。</td></tr>
+<tr><td><code>ref_layer_insert</code>(210)</td><td>把生成的 prism 插入到已有体网格中（拓扑 stitch）。</td></tr>
+<tr><td><code>ref_layer_recon</code>(331)</td><td>层重建：识别近壁 tet 五个/六个一组，合并为 prism/pyr。</td></tr>
+<tr><td><code>ref_layer_quad_right_triangles</code>(353)</td><td>把贴壁 quad 拆为<em>右手</em>取向的两个 tri 对，便于后续 layer 操作。</td></tr>
+<tr><td><code>ref_layer_align_quad / align_prism</code>(714, 1130)</td><td><em>层对齐</em>：使邻接 hex/prism 共面 quad 节点序一致。</td></tr>
+<tr><td><code>ref_layer_align_first_layer</code>(536), <code>align_quad_advance</code>(604), <code>align_quad_seq</code>(683)</td>
+<td>从壁面起一层一层向外推进对齐，类似 advancing front。</td></tr>
+<tr><td><code>ref_layer_tet_prism / tet_to_pyr</code>(725, 743)</td><td>把 5 个 tet 等效为 1 个 prism；4 tet→ 1 pyr。</td></tr>
+<tr><td><code>ref_layer_seed_tet / swap / recover_face / remove_sliver / prism_insert_hair</code></td>
+<td>插入棱柱时局部恢复、拒绝 sliver、缝合（hair = 沿法向的细丝边）。</td></tr>
+</table>
+
+<h3>22.1 法向计算细节</h3>
+<p>简单平均会在锐边产生奇异；<code>ref_layer_normal</code> 用面积加权
+$\mathbf{n}_v=\dfrac{\sum_T A_T\mathbf{n}_T}{\|\sum_T A_T\mathbf{n}_T\|}$，
+对 2D 用 <code>ref_layer_twod_normal</code>(518) 单独处理；
+对凹角则禁用层（避免折叠）。<code>ref_layer_interior_seg_normal</code>(483) 处理表面内部对偶段。</p>
+
+<!-- ==================================================================== -->
+<h2 id="mixed-inflate">23. <code>ref_inflate</code> 边界层膨胀</h2>
+<p>不同于 <code>ref_layer</code> 关注拓扑装配，<code>ref_inflate</code>（<code>src/ref_inflate.c</code>）
+专注<strong>几何<em>膨胀</em></strong>：把指定 face id 的表面节点向外推进生成棱柱列。
+Used by <code>ref collar</code>。</p>
+
+<h3>23.1 主入口</h3>
+<table>
+<tr><th>API</th><th>作用</th></tr>
+<tr><td><code>ref_inflate_face(faceids, n_layer, h0, H, …)</code>(78)</td>
+    <td>对给定 face id 集合的表面，逐层向外（按法向）插入节点形成 prism。</td></tr>
+<tr><td><code>ref_inflate_radially(faceids, …)</code>(587)</td>
+    <td>沿径向（从原点）膨胀；用于轴对称外推。</td></tr>
+<tr><td><code>ref_inflate_origin</code>(1063)</td>
+    <td>计算膨胀原点（默认 (0,0,zmid)）。</td></tr>
+<tr><td><code>ref_inflate_read_usm3d_mapbc</code>(1108)</td>
+    <td>解析 USM3D mapbc 中的 family/bc 选定 face id。</td></tr>
+<tr><td><code>ref_inflate_pri_min_dot</code>(32)</td>
+    <td>检查棱柱质量：相邻三角面法向的最小点积，避免折叠 (sliver)。</td></tr>
+</table>
+
+<h3>23.2 等比层厚</h3>
+<p>给首层厚 $h_0$，总厚 $H$，层数 $N$，求公比 $r$ 使
+$h_0\dfrac{r^N-1}{r-1}=H$（<code>ref_inflate_rate</code>，<code>ref_inflate.c:1010</code>）。
+牛顿迭代初值 $r=(H/h_0)^{1/(N-1)}$，每步求残差与导数。
+<code>ref_inflate_total_thickness</code>(1040) 给出已知 $r$ 的总厚；
+<code>ref_inflate_dthickness</code>(1050) 给出对 $r$ 的解析导数。</p>
+
+<h3>23.3 “Rail” 插值</h3>
+<p>当面边界处需要与已有 wake / 凹槽几何衔接时，refine 沿一条<em>导轨曲线 (rail)</em>
+做参数化插值：</p>
+<ul>
+  <li><code>ref_inflate_sort_rail</code>(430) — 沿曲线弧长排序节点。</li>
+  <li><code>ref_inflate_compact_rail</code>(467) — 去重相近节点。</li>
+  <li><code>ref_inflate_extend_rail</code>(492) — 在两端外推。</li>
+  <li><code>ref_inflate_interpolate_rail</code>(538) — 给定 $x$ 用线性段返回 $(y,z)$。</li>
+  <li><code>ref_inflate_rail_node</code>(564) — 把表面节点投影到 rail。</li>
+</ul>
+<p>实际场景：collar 网格的 root / tip 与对称面交线、机翼翼根。</p>
+
+<!-- ==================================================================== -->
+<!--                            Supporting modules                          -->
+<!-- ==================================================================== -->
+
+<h2 id="geom">24. 几何 / CAD 接口 (ref_geom / ref_egads / ref_facelift / ref_meshlink)</h2>
+
+<h3>24.1 ref_geom — 节点-几何关联表</h3>
+<p>每节点最多被关联到几何实体 NODE/EDGE/FACE，存 <code>(type,id,param[2])</code>。
+<code>ref_geom_add</code>、<code>ref_geom_remove_all</code>、<code>each_ref_geom_face</code>
+（迭代器宏）；<code>ref_geom_radian_request(geom, &amp;Δθ)</code> 提供每弧度段数；
+<code>ref_geom_face_initial_cell_height</code>、<code>ref_geom_face_min_length</code>
+按 face 提供边界层首层高与最小长度。</p>
+
+<h3>24.2 ref_egads — EGADS 适配</h3>
+<p>包装 ESP/EGADS API：<code>ref_egads_load</code>、<code>ref_egads_face_curvature</code>
+（主曲率与方向）、<code>ref_egads_feature_size</code>（多解析特征大小）、
+<code>ref_egads_diagonal</code>、<code>ref_egads_edge_eval</code>（曲线参数→XYZ）。
+EGADSlite 仅可读以字节流嵌入 .meshb 的模型；EBody / Effective Body 也支持。</p>
+
+<h3>24.3 ref_facelift — 高保真表面替身</h3>
+<p>当原 CAD 在曲率突变处不可信时，可载入<em>refined surface</em>（facelift）作为度量
+源。<code>--facelift file.meshb</code> 启用；<code>--facelift-metric C</code> 让 facelift
+表面以指定 complexity 影响度量。</p>
+
+<h3>24.4 ref_meshlink — 第三方几何接口</h3>
+<p><code>--meshlink file</code>。提供 face curvature、edge gap、point projection 等。</p>
+
+<!-- ==================================================================== -->
+<h2 id="parallel">25. 并行与负载均衡 (ref_mpi / ref_migrate / ref_part / ref_gather / ref_agents)</h2>
+<ul>
+  <li><b>ref_mpi</b>：包装 MPI；提供 <code>ref_mpi_allsum</code>、<code>ref_mpi_allconcat</code>、
+      <code>ref_mpi_stopwatch</code>、<code>ref_mpi_para</code>（是否 &gt;1 rank）等；
+      未编译 MPI 时自动 stub。</li>
+  <li><b>ref_part</b>：<code>ref_part_by_extension</code> 是并行 reader 入口（基于 file 后缀分发）。
+      支持 <em>chunked + scatter</em> 读取大文件，避免单 rank 内存爆炸。</li>
+  <li><b>ref_migrate</b>：<code>ref_migrate_to_balance</code> 调用 ParMETIS / Zoltan / 内置 RCB
+      做<em>多约束图分区</em>（可选 <code>--partitioner</code> id 见 §<a href="#cmd-adapt">6.2</a>）；
+      支持 single-partition pack（用于回到串行序列化）。</li>
+  <li><b>ref_gather</b>：把分区数据汇聚到 rank 0 写出
+      （<code>ref_gather_by_extension</code>），亦提供 incremental tecplot animation
+      帧 (<code>ref_gather_blocking_frame</code>) 方便观察自适应过程。</li>
+  <li><b>ref_agents</b>：异步消息体，用于<em>跨分区 cavity</em>等需要多 rank 协商的算子；
+      实现一种轻量级 active-message。</li>
+  <li><b>ref_comprow</b>：压缩行存储 (CSR) 矩阵助手，用于线弹性光顺与全局矩阵装配。</li>
+</ul>
+
+<!-- ==================================================================== -->
+<h2 id="ipc">26. 场插值 (ref_interp)</h2>
+<p><code>REF_INTERP</code> 实现“donor → receptor”空间插值：</p>
+<ol>
+  <li>构建 donor 网格的 <code>REF_OCT</code> 八叉树（<code>src/ref_oct.c</code>）。</li>
+  <li>对每 receptor 节点 <em>x</em>，oct 查询找出可能 host 单元集合。</li>
+  <li>对 tet 计算重心坐标 $(\xi_0,\xi_1,\xi_2,\xi_3)$；若全 ≥ −eps 则 host。</li>
+  <li>$u_{\text{rec}}=\sum \xi_i u_i$（线性插值；高阶元素用 <code>ref_cell_shape</code>）。</li>
+  <li>边界点未命中时退化为最近表面三角投影。</li>
+  <li>并行：跨分区 receptor 通过 <code>ref_agents</code> 转发到正确 host rank。</li>
+</ol>
+
+<!-- ==================================================================== -->
+<h2 id="util">27. 数据结构与工具</h2>
+<table>
+<tr><th>模块</th><th>用途</th></tr>
+<tr><td><code>ref_node</code></td><td>节点表（坐标、global、part、age、metric）。</td></tr>
+<tr><td><code>ref_cell</code></td><td>单元组（连通、邻接、edge_per、c2n）。</td></tr>
+<tr><td><code>ref_grid</code></td><td>所有 cell group + node 的集合体。</td></tr>
+<tr><td><code>ref_adj</code></td><td>节点→单元邻接列表 (forward + back)。</td></tr>
+<tr><td><code>ref_edge</code></td><td>全局边表。</td></tr>
+<tr><td><code>ref_face</code></td><td>全局面表（quad 含 spanning 查询）。</td></tr>
+<tr><td><code>ref_dict</code></td><td>整型 → 整型字典（红黑树）。</td></tr>
+<tr><td><code>ref_list</code></td><td>动态整型数组。</td></tr>
+<tr><td><code>ref_cloud</code></td><td>节点 + 数据的多维“点云”。</td></tr>
+<tr><td><code>ref_clump</code></td><td>带分类的节点群。</td></tr>
+<tr><td><code>ref_sort</code> / <code>ref_search</code></td><td>排序、二分/k-d/oct 搜索。</td></tr>
+<tr><td><code>ref_oct</code></td><td>稀疏八叉树。</td></tr>
+<tr><td><code>ref_math</code> / <code>ref_matrix</code></td><td>向量/矩阵原语：cross, dot, det, inv, qr, svd, generalized eig。</td></tr>
+<tr><td><code>ref_args</code></td><td>命令行解析（<code>ref_args_find</code>, <code>ref_args_char</code>）。</td></tr>
+<tr><td><code>ref_html</code></td><td>HTML/SVG 输出（直方图等）。</td></tr>
+<tr><td><code>ref_histogram</code></td><td>边长 / 质量 / ratio 直方图（被 tattle 调用）。</td></tr>
+<tr><td><code>ref_validation</code></td><td>各种一致性 / 流形 / 几何投影校验。</td></tr>
+<tr><td><code>ref_axi</code></td><td>2D ↔ 楔形（<code>--axi</code>）。</td></tr>
+<tr><td><code>ref_iso</code></td><td>等值面/切片（visualize 用）。</td></tr>
+<tr><td><code>ref_dist</code></td><td>线段-三角相交（用于 distance / 自交检测）。</td></tr>
+<tr><td><code>ref_phys</code></td><td>物理量帮助：Mach、压力、密度、温度换算。</td></tr>
+<tr><td><code>ref_elast</code></td><td>线弹性网格变形（deforming flow）。</td></tr>
+<tr><td><code>ref_acceptance</code></td><td>验收测试夹具（<code>tests/acceptance/</code>）。</td></tr>
+<tr><td><code>ref_fortran</code></td><td>Fortran 桥接绑定。</td></tr>
+</table>
+
+<h3>27.1 错误处理宏（<code>ref_defs.h</code>）</h3>
+<ul>
+  <li><code>RSS</code>(<em>call,msg</em>) — Required Status Success；非 0 抛错并打印。</li>
+  <li><code>RXS</code>(<em>call, expected, msg</em>) — eXpected non-zero status 不算错。</li>
+  <li><code>RAS</code> / <code>RAE</code> — Required Assert / Required Assert Error。</li>
+  <li><code>RNS</code> — Required Non-NULL pointer。</li>
+  <li><code>RSB</code>(<em>call,msg,block</em>) — 若失败先执行 block（清理）再传播。</li>
+</ul>
+
+<!-- ==================================================================== -->
+<h2 id="api">28. C 库 API 速查</h2>
+<details><summary>构造典型 multiscale + adapt 流程（C 代码）</summary>
+<pre>#include "ref_grid.h"
+#include "ref_part.h"
+#include "ref_metric.h"
+#include "ref_adapt.h"
+#include "ref_gather.h"
+
+REF_GRID g;
+REF_DBL *metric;
+REF_MPI mpi;
+ref_mpi_create(&amp;mpi);
+ref_part_by_extension(&amp;g, mpi, "input.meshb");
+
+REF_DBL *scalar = read_my_field(g);          // 用户提供
+ref_malloc(metric, 6 * ref_node_max(ref_grid_node(g)), REF_DBL);
+
+ref_metric_lp(metric, g, scalar,
+              REF_RECON_KEXACT,              // 或 REF_RECON_L2PROJECTION
+              /*p_norm*/ 2,
+              /*gradation*/ -1.0,            // mixed-space
+              /*aspect_ratio*/ -1.0,
+              /*target_complexity*/ 1.0e5);
+
+ref_metric_to_node(metric, ref_grid_node(g));
+
+REF_BOOL done;
+for (int pass = 0; pass &lt; 15 &amp;&amp; !done; pass++)
+  ref_adapt_pass(g, &amp;done);
+
+ref_gather_by_extension(g, "out.meshb");
+ref_grid_free(g);
+ref_mpi_free(mpi);
+ref_mpi_stop();</pre>
+</details>
+
+<details><summary>对混合网格执行各向异性 subdiv（C 代码）</summary>
+<pre>REF_SUBDIV sd;
+ref_subdiv_create(&amp;sd, g);
+
+/* 例如：对所有度量比 &gt; √2 的棱柱三角面边标记 */
+ref_subdiv_mark_prism_by_metric(sd);
+
+/* 强制法向加密 */
+ref_subdiv_mark_prism_sides(sd);
+
+/* 主分裂（含 relax / impossible 检查 / 体单元 / 表面 / 边） */
+ref_subdiv_split(sd);
+
+ref_subdiv_free(sd);</pre>
+</details>
+
+<details><summary>把混合网格碎裂为单纯形</summary>
+<pre>REF_GRID g;
+ref_part_by_extension(&amp;g, mpi, "mixed.meshb");
+ref_shard_in_place(g);                // pri/pyr/hex → tet, qua → tri
+ref_export_by_extension(g, "tet_only.meshb");</pre>
+</details>
+
+<!-- ==================================================================== -->
+<h2 id="refs">29. 关键参考文献</h2>
+<ol>
+  <li>F. Alauzet. <em>Size gradation control of anisotropic meshes.</em>
+      Finite Elements in Analysis and Design, 2010.
+      <a href="https://doi.org/10.1016/j.finel.2009.06.028">doi:10.1016/j.finel.2009.06.028</a>
+      —— 度量空间 / 混合空间梯度限幅算法（§<a href="#gradation">10</a>）。</li>
+  <li>A. Loseille, F. Alauzet. <em>Continuous mesh framework, Part I &amp; II.</em>
+      SIAM J. Numer. Anal., 2011 — 多尺度 $L^p$ 度量与连续网格理论
+      （§<a href="#multiscale-math">8</a>）。</li>
+  <li>A. Loseille et al. <em>Achievement of global second order mesh
+      convergence for discontinuous flows with adapted unstructured meshes.</em>
+      AIAA 2007-4186 — opt-goal 度量。</li>
+  <li>F. Alauzet, A. Loseille, D. Marcum. AIAA 2019-2947 — 守恒粘性度量。</li>
+  <li>UGAWG — Unstructured Grid Adaptation Working Group benchmarks
+      (<a href="https://ugawg.github.io/">ugawg.github.io</a>)。</li>
+  <li>D. Marcum. AFLR3 (volume mesher) 与 AFLR ugrid 文件格式。</li>
+  <li>Si, H. <em>TetGen: A delaunay-based quality tetrahedral mesh generator.</em>
+      ACM TOMS, 2015.</li>
+  <li>L. Maréchal. <em>libMeshb</em> 开源库（meshb / solb 二进制格式）。</li>
+  <li>ESP / EGADS / OpenCASCADE 文档。</li>
+</ol>
+
+<hr>
+<p class="small">本文档由 refine 源码（<code>src/ref_subcommand.c</code>、
+<code>src/ref_subdiv.c</code>、<code>src/ref_shard.c</code>、
+<code>src/ref_layer.c</code>、<code>src/ref_inflate.c</code>、
+<code>src/ref_metric.c</code>、<code>src/ref_recon.c</code>、
+<code>src/ref_adapt.c</code> 等）于 2026-04-30 自动生成；
+所有行号引用截至当前 commit。MathJax 用于公式渲染（在线 CDN）。
+许可证：与 refine 主仓库一致 (Apache-2.0 / NASA No-Copyright)。</p>
+
+</main></div>
+</body></html>
