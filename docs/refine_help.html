@@ -279,7 +279,7 @@ make install</pre>
 <table>
 <tr><th>选项</th><th>含义</th></tr>
 <tr><td><code>-t</code></td><td>输出 Tecplot 动画 <code>ref_gather_movie.tec</code> 与 <code>ref_gather_histo.tec</code> 跟踪表面曲率自适应过程。</td></tr>
-<tr><td><code>--mesher tetgen|aflr</code></td><td>选择体网格生成器；外部可执行 <code>tetgen</code> 或 <code>aflr3</code> 必须在 <code>$PATH</code>。</td></tr>
+<tr><td><code>--mesher tetgen|aflr</code></td><td>选择体网格生成器；外部可执行文件 <code>tetgen</code> 或 <code>aflr3</code> 必须在 <code>$PATH</code>。</td></tr>
 <tr><td><code>--mesher-options "..."</code></td><td>透传到外部 mesher 的命令行字符串（如 <code>"-pq1.4Y"</code>）。</td></tr>
 <tr><td><code>--axi</code></td><td>设置 6022 边界条件；将二维拉伸生成楔形 (wedge)，常用于轴对称问题。</td></tr>
 </table>
@@ -469,7 +469,7 @@ $\ell_\mathcal{M}\approx 1$，且每单元相对于 $\mathcal{M}$ 接近<em>单�
       \sqrt{\mathbf{e}^\top \mathcal{M}(P_0+s\mathbf{e})\,\mathbf{e}}\,ds$，
       $\mathbf{e}=P_1-P_0$；refine 提供多种数值积分（<code>--ratio-method</code>）。
       最快近似为 $\ell\approx\sqrt{\mathbf{e}^\top\mathcal{M}_{\!\text{avg}}\mathbf{e}}$。</li>
-  <li>单元度量体积 $V_\mathcal{M}=\sqrt{\det\mathcal{M}}\,V_{\text{Euclid}}$。</li>
+  <li>单元度量体积 $V_\mathcal{M}=\sqrt{\det\mathcal{M}}\,V_{\text{Euclidean}}$。</li>
   <li>“本征间距” $h_i=1/\sqrt{\lambda_i}$，其中 $\lambda_i$ 为 $\mathcal{M}$ 特征值，
       对应特征向量给出主方向。</li>
 </ul>
